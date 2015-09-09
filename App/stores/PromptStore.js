@@ -9,7 +9,7 @@ var _prompts = {}, _selectedPrompt = {};
 
 // Method to load prompts from reddit API
 function loadPrompts(data) {
-  _prompts = data[0];
+  _prompts = data;
 }
 
 // Set selected prompt

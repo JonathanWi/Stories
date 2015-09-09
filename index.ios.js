@@ -10,6 +10,7 @@ var PromptStore = require('./App/stores/PromptStore');
 
 var _ = require('./node_modules/react-native/node_modules/underscore');
 
+var RedditApi = require('./App/utils/RedditApi');
 
 
 var {
@@ -22,10 +23,12 @@ var {
 } = React;
 
 
+RedditApi.getPromptsData();
+
 // Method to retrieve state from Stores
 function getAppState() {
   return {
-    loaded : true,
+    loaded : false,
     prompts: PromptStore.getPrompts()
   };
 }
@@ -41,7 +44,6 @@ var Stories = React.createClass({
     PromptStore.addChangeListener(this._onChange);
   },
 
-
   // Remove change listeners from stores
   componentWillUnmount: function() {
     PromptStore.removeChangeListener(this._onChange);
@@ -49,6 +51,7 @@ var Stories = React.createClass({
 
   _onChange: function() {
     this.setState(getAppState());
+    this.setState({'loaded' : true});
   },
   
   renderScene: function(route, navigator) {
