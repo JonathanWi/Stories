@@ -1,53 +1,109 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
 var React = require('react-native');
+var styles = require('./styles');
+
+var Loading = require('./App/components/Loading');
+var Prompts = require('./App/components/Prompts');
+
+var PromptStore = require('./App/stores/PromptStore');
+
+var _ = require('./node_modules/react-native/node_modules/underscore');
+
+
+
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
+  AppStateIOS,
+  Navigator
 } = React;
 
+
+// Method to retrieve state from Stores
+function getAppState() {
+  return {
+    loaded : true,
+    prompts: PromptStore.getPrompts()
+  };
+}
+
 var Stories = React.createClass({
-  render: function() {
+
+  getInitialState: function() {
+    return getAppState();
+  },
+
+  // Add change listeners to stores
+  componentDidMount: function() {
+    PromptStore.addChangeListener(this._onChange);
+  },
+
+
+  // Remove change listeners from stores
+  componentWillUnmount: function() {
+    PromptStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState(getAppState());
+  },
+  
+  renderScene: function(route, navigator) {
+    var Component = route.component;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <Component
+          route={route}
+          navigator={navigator}
+          topNavigator={navigator}
+          prompts={this.state.prompts} />
       </View>
-    );
-  }
-});
+      )
+  },
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+  render: function() {
+
+    while (!this.state.loaded) {
+      return (
+        this.renderLoading()
+        )
+    }
+    
+    return (
+      this.renderPrompts()
+    );
+  
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+
+  renderLoading: function() {
+    return (
+      <View style={styles.container}>
+        <Loading
+          loaded={this.state.loaded} />
+      </View>
+      )
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
+  renderPrompts: function() {
+    return (
+      <Navigator
+          sceneStyle={styles.container}
+          ref={(navigator) => { this.navigator = navigator; }}
+          renderScene={this.renderScene}
+          tintColor='#DA552F'
+          barTintColor='#FFFFFD'
+          titleTextColor='#DA552F'
+          navigationBarHidden={true}
+          initialRoute={{
+            title: 'Prompts',
+            component: Prompts,
+          }} />
+    )
+  }
+
 });
 
 AppRegistry.registerComponent('Stories', () => Stories);

@@ -6,6 +6,11 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "events": "^1.0.2",
     "react-native": "^0.10.1"
+  },
+  "devDependencies": {
+    "flux": "^2.1.1",
+    "keymirror": "^0.1.1"
   }
 }
