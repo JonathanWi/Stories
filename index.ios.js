@@ -4,7 +4,7 @@ var React = require('react-native');
 var styles = require('./styles');
 
 var Loading = require('./App/components/Loading');
-var Prompts = require('./App/components/Prompts');
+var Main = require('./App/components/Main');
 
 var PromptStore = require('./App/stores/PromptStore');
 
@@ -101,8 +101,8 @@ var Stories = React.createClass({
           titleTextColor='#DA552F'
           navigationBarHidden={true}
           initialRoute={{
-            title: 'Prompts',
-            component: Prompts,
+            name: 'Stories',
+            component: Main
           }} />
     )
   }
