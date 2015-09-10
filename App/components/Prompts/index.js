@@ -16,7 +16,8 @@ var types = {
   'RF' : 'Reality Fiction',
   'PM' : 'Prompt Me',
   'PI' : 'Prompt Inspired',
-  'CC' : 'Constructive Criticism'
+  'CC' : 'Constructive Criticism',
+  'FF' : 'Flash Fiction'
 }
 
 var {
@@ -49,22 +50,26 @@ var Prompts = React.createClass({
 
   renderCell: function(item) {
     var type = types[item.data.title.substring(1, 3).toUpperCase()];
-    var title = item.data.title.substring(5);
+    var title = item.data.title.substring(item.data.title.indexOf("]") + 1).trim();
     return (
       <PromptCell
-        onSelect={() => this.goToPrompt(item.data.id, type)}
-        type={type.toUpperCase()}
-        title={title} />
+        onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author)}
+        type={type}
+        title={title}
+        author={item.data.author} />
       )
   },
 
-  goToPrompt: function(index, type) {
+  goToPrompt: function(index, type, title, author) {
     this.props.navigator.push({
       title: type,
       component: Comments,
       backButtonTitle: '',
       passProps: {
-        promptId: index}
+        promptId: index,
+        title: title,
+        author: author
+      }
     })
   }
 

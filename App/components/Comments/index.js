@@ -25,6 +25,8 @@ var Comments = React.createClass({
   getInitialState: function() {
     return {
       promptId : this.props.promptId,
+      title : this.props.title,
+      author : this.props.author,
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       comments : CommentStore.getComments(),
       loaded : false
@@ -55,10 +57,24 @@ var Comments = React.createClass({
 
     return (
       <ListView
+        renderHeader={this.renderHeader}
         dataSource={this.state.dataSource}
         renderRow={this.renderCell}
       />
     );
+  },
+
+  renderHeader: function() {
+    return (
+      <View style={styles.header}>
+        <Text style={styles.title}>
+          {this.state.title}
+        </Text>
+        <Text style={styles.author}>
+          — {this.state.author}
+        </Text>
+      </View>
+      )
   },
 
   renderCell: function(item) {

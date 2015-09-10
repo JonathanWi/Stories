@@ -9,10 +9,12 @@ var {
 } = React;
 
 var PromptCell = React.createClass({
+
   getInitialState: function() {
     return {
       title: this.props.title,
       type: this.props.type,
+      author: this.props.author
     }
   },
 
@@ -25,7 +27,7 @@ var PromptCell = React.createClass({
               {this.state.title}
             </Text>
             <Text style={styles.type}>
-              {this.state.type}
+              <Text style={{fontWeight:'bold'}}>{this.state.author}</Text> | {this.state.type}
             </Text>
           </View>
           <View style={styles.separator}></View>

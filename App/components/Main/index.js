@@ -10,6 +10,7 @@ var {
   View,
   TabBarIOS,
   NavigatorIOS,
+  Text
 } = React;
 
 var Main = React.createClass({
