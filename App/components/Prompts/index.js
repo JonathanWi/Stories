@@ -1,6 +1,9 @@
 var React = require('react-native');
 var styles = require('./styles.js');
 
+var Comments = require('../Comments');
+var PromptCell = require('./PromptCell');
+
 var PromptsActions = require('../../actions/PromptsActions');
 
 var types = {
@@ -20,7 +23,6 @@ var {
   View,
   NavigatorIOS,
   Text,
-  StatusBarIOS,
   ScrollView,
   TouchableHighlight,
   ListView
@@ -35,14 +37,6 @@ var Prompts = React.createClass({
     };
   },
 
-  componentWillMount: function() {
-    this.hideStatusBar();
-  },
-
-  hideStatusBar: function() {
-    StatusBarIOS.setHidden(true);
-  },
-
 
   render: function() {
     return (
@@ -54,23 +48,24 @@ var Prompts = React.createClass({
   },
 
   renderCell: function(item) {
-    var type = item.data.title.substring(1, 3).toUpperCase();
-    var title = item.data.title.substring(5)
+    var type = types[item.data.title.substring(1, 3).toUpperCase()];
+    var title = item.data.title.substring(5);
     return (
-      <TouchableHighlight onPress={this.props.onSelect}>
-        <View style={styles.container}>
-          <View style={{flex: 1}}>
-            <Text style={styles.title}>
-              {title}
-            </Text>
-            <Text style={styles.type}>
-              {types[type].toUpperCase()}
-            </Text>
-          </View>
-          <View style={styles.separator}></View>
-        </View>
-      </TouchableHighlight>
-    );
+      <PromptCell
+        onSelect={() => this.goToPrompt(item.data.id, type)}
+        type={type.toUpperCase()}
+        title={title} />
+      )
+  },
+
+  goToPrompt: function(index, type) {
+    this.props.navigator.push({
+      title: type,
+      component: Comments,
+      backButtonTitle: '',
+      passProps: {
+        promptId: index}
+    })
   }
 
 

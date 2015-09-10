@@ -5,19 +5,19 @@ var _ = require('../../node_modules/react-native/node_modules/underscore');
 
 
 // Define initial data points
-var _prompts = {};
+var _comments = {};
 
-// Method to load prompts from reddit API
-function loadPrompts(data) {
-  _prompts = data;
+// Method to load comments from reddit API
+function loadComments(data) {
+  _comments = data;
 }
 
-// Extend PromptStore with EventEmitter to add eventing capabilities
-var PromptStore = _.extend({}, EventEmitter.prototype, {
+// Extend CommentStore with EventEmitter to add eventing capabilities
+var CommentStore = _.extend({}, EventEmitter.prototype, {
 
-  // Return prompts
-  getPrompts: function() {
-    return _prompts;
+  // Return comments
+  getComments: function() {
+    return _comments;
   },
 
   // Emit Change Event
@@ -44,9 +44,9 @@ AppDispatcher.register(function(payload) {
 
   switch(action.actionType) {
     
-    // Respond to GET_PROMPTS action
-    case AppConstants.GET_PROMPTS:
-      loadPrompts(action.data);
+    // Respond to GET_COMMENTS action
+    case AppConstants.GET_COMMENTS:
+      loadComments(action.data);
       break;
 
     default:
@@ -55,10 +55,10 @@ AppDispatcher.register(function(payload) {
   }
 
   // If action was responded to, emit change event
-  PromptStore.emitChange();
+  CommentStore.emitChange();
 
   return true;
 
 });
 
-module.exports = PromptStore;
+module.exports = CommentStore;

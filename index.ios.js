@@ -41,17 +41,23 @@ var Stories = React.createClass({
 
   // Add change listeners to stores
   componentDidMount: function() {
+    AppStateIOS.addEventListener('change', this.handleAppStateChange);
     PromptStore.addChangeListener(this._onChange);
   },
 
   // Remove change listeners from stores
   componentWillUnmount: function() {
+    AppStateIOS.removeEventListener('change', this.handleAppStateChange);
     PromptStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
     this.setState(getAppState());
     this.setState({'loaded' : true});
+  },
+
+  handleAppStateChange: function() {
+    console.log('state changed');
   },
   
   renderScene: function(route, navigator) {

@@ -26,11 +26,9 @@ var Main = React.createClass({
         tintColor='#DA552F'
         barTintColor='#FFFFFD'
         titleTextColor='#DA552F'
-        ref='productRef'
         initialRoute={{
           title: 'Stories',
           component: Prompts,
-          backButtonTitle: ' ',
           passProps: {
             prompts: this.state.prompts,
           }

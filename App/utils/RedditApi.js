@@ -12,6 +12,15 @@ var RedditApi = {
 			})
 			PromptsActions.getPrompts(_data);
 		});
+	},
+
+	getPromptComments: function(index) {
+		return fetch('https://api.reddit.com/r/WritingPrompts/comments/'+ index +'.json?depth=1')
+		.then(function(data) {
+			var _data = JSON.parse(data._bodyInit);
+			_data = _data[1].data.children;
+			PromptsActions.getComments(_data);
+		});
 	}
 }
 

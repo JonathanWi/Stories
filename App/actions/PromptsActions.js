@@ -14,10 +14,10 @@ var PromptsActions = {
 	},
 
 	// Get top comments from a prompt
-	getComments: function(index) {
+	getComments: function(data) {
 		AppDispatcher.handleAction({
 			actionType: AppConstants.GET_COMMENTS,
-			data: index
+			data: data
 		})
 	},
 
