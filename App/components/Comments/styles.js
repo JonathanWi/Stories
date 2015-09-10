@@ -16,9 +16,9 @@ var styles = StyleSheet.create({
   },
   title: {
   	color: '#FFFFFF',
-  	lineHeight: 27,
-  	fontSize: 18,
-  	fontFamily: 'Times'
+  	lineHeight: 30,
+  	fontSize: 22,
+  	fontWeight: 'bold'
   },
   author: {
   	marginTop: 15,

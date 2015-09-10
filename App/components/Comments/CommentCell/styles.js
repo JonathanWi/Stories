@@ -14,7 +14,7 @@ var styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   body: {
-    fontSize: 18,
+    fontSize: 22,
     textAlign: 'left',
     marginBottom: 25,
     marginRight: 25,
@@ -24,7 +24,7 @@ var styles = StyleSheet.create({
     lineHeight: 27
   },
   author: {
-    fontSize: 12,
+    fontSize: 15,
     textAlign: 'left',
     marginBottom: 15,
     marginTop: 15,

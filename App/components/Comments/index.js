@@ -79,7 +79,7 @@ var Comments = React.createClass({
 
   renderCell: function(item) {
     var author = item.data.author;
-    var body = item.data.body;
+    var body = item.data.body.trim();
     return (
       <CommentCell
         author={author}

@@ -17,11 +17,27 @@ var CommentCell = React.createClass({
   },
 
   render: function() {
+    var _words = this.state.body.split(' ').length;
+    var _estimatedSeconds = Math.floor(_words / 3);
+    if(_estimatedSeconds < 60) {
+      var _estimatedTime = 'Under a minute read';
+    } else {
+      var _estimatedTime = '';
+      var _minutes = Math.floor(_estimatedSeconds / 60);
+      var _seconds = _estimatedSeconds - (_minutes * 60);
+      if(_seconds < 30) {
+        _estimatedTime += _minutes + ' min';
+      } else {
+        _minutes = _minutes + 1;
+         _estimatedTime += _minutes + ' min';
+      }
+      _estimatedTime += ' read';
+    }
     return (
       <View style={styles.container}>
         <View style={{flex: 1}}>
           <Text style={styles.author}>
-            {this.state.author}
+            {this.state.author} <Text style={{color:'#AAA'}}> | {_estimatedTime} </Text>
           </Text>
           <Text style={styles.body}>
             {this.state.body}

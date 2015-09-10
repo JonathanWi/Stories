@@ -14,7 +14,7 @@ var styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   title: {
-    fontSize: 15,
+    fontSize: 22,
     textAlign: 'left',
     marginTop: 15,
     marginBottom: 4,
@@ -25,7 +25,7 @@ var styles = StyleSheet.create({
     lineHeight: 25
   },
   type: {
-    fontSize: 9,
+    fontSize: 12,
     textAlign: 'left',
     marginBottom: 25,
     marginRight: 10,
