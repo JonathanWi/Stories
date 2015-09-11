@@ -26,6 +26,7 @@ var Comments = React.createClass({
     return {
       promptId : this.props.promptId,
       title : this.props.title,
+      type : this.props.type,
       author : this.props.author,
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       comments : CommentStore.getComments(),
@@ -66,13 +67,17 @@ var Comments = React.createClass({
 
   renderHeader: function() {
     return (
-      <View style={styles.header}>
-        <Text style={styles.title}>
-          {this.state.title}
-        </Text>
-        <Text style={styles.author}>
-          — {this.state.author}
-        </Text>
+      <View style={{backgroundColor:this.state.type.color}}>
+        <View style={styles.header}>
+          <Text style={styles.title}>
+            {this.state.title}
+          </Text>
+          <View style={{opacity:.5}}>
+            <Text style={styles.author}>
+              — {this.state.author}
+            </Text>
+          </View>
+        </View>
       </View>
       )
   },

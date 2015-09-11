@@ -11,7 +11,6 @@ var styles = StyleSheet.create({
     flexDirection: 'column'
   },
   header: {
-  	backgroundColor: '#DA552F',
   	padding: 25
   },
   title: {
@@ -22,7 +21,7 @@ var styles = StyleSheet.create({
   },
   author: {
   	marginTop: 15,
-  	color: '#8E3420'
+  	color: '#000'
   }
 })
 

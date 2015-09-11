@@ -27,7 +27,7 @@ var PromptCell = React.createClass({
               {this.state.title}
             </Text>
             <Text style={styles.type}>
-              <Text style={{fontWeight:'bold'}}>{this.state.author}</Text> | {this.state.type}
+              <Text style={{fontWeight:'bold'}}>{this.state.author}</Text> | <Text style={{color:this.state.type.color}}>{this.state.type.name}</Text>
             </Text>
           </View>
           <View style={styles.separator}></View>

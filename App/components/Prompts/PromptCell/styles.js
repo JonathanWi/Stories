@@ -16,7 +16,7 @@ var styles = StyleSheet.create({
   title: {
     fontSize: 22,
     textAlign: 'left',
-    marginTop: 15,
+    marginTop: 25,
     marginBottom: 4,
     marginRight: 25,
     marginLeft: 25,

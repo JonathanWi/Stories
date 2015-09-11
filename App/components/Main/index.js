@@ -3,7 +3,7 @@ var styles = require('./styles.js');
 
 var Prompts = require('../Prompts');
 
-// var Icon = require('Foundation');
+var Icon = require('react-native-vector-icons/Ionicons');
 
 
 var {
@@ -20,12 +20,19 @@ var Main = React.createClass({
     }
   },
 
+  componentWillMount: function() {
+    Icon.getImageSource('bookmark', 30)
+      .then((source) => {
+        this.setState({ backIcon: source })
+      });
+  },
+
   render: function() {
     return (
       <NavigatorIOS
         style={styles.container}
         tintColor='#DA552F'
-        barTintColor='#FFFFFD'
+        barTintColor='#FFF'
         titleTextColor='#DA552F'
         initialRoute={{
           title: 'Stories',

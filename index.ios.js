@@ -82,7 +82,7 @@ var Stories = React.createClass({
     }
     
     return (
-      this.renderPrompts()
+      this.renderMain()
     );
   
   },
@@ -96,15 +96,15 @@ var Stories = React.createClass({
       )
   },
 
-  renderPrompts: function() {
+  renderMain: function() {
     return (
       <Navigator
           sceneStyle={styles.container}
           ref={(navigator) => { this.navigator = navigator; }}
           renderScene={this.renderScene}
-          tintColor='#DA552F'
-          barTintColor='#FFFFFD'
-          titleTextColor='#DA552F'
+          tintColor='#333333'
+          barTintColor='#000'
+          titleTextColor='#333'
           navigationBarHidden={true}
           initialRoute={{
             name: 'Stories',

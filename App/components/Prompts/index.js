@@ -6,18 +6,20 @@ var PromptCell = require('./PromptCell');
 
 var PromptsActions = require('../../actions/PromptsActions');
 
+var Icon = require('react-native-vector-icons/Ionicons');
+
 var types = {
-  'WP' : 'Writing Prompts',
-  'EU' : 'Established Univers',
-  'CW' : 'Constrained Writing',
-  'TT' : 'Theme Thursday',
-  'MP' : 'Media Prompt',
-  'IP' : 'Image Prompt',
-  'RF' : 'Reality Fiction',
-  'PM' : 'Prompt Me',
-  'PI' : 'Prompt Inspired',
-  'CC' : 'Constructive Criticism',
-  'FF' : 'Flash Fiction'
+  'WP' : { 'name' : 'Writing Prompts', 'color': '#802727'},
+  'EU' : { 'name' : 'Established Univers', 'color' : '#E1AA79'},
+  'CW' : { 'name' : 'Constrained Writing', 'color' : '#808027'},
+  'TT' : { 'name' : 'Theme Thursday', 'color' : '#804F27'},
+  'MP' : { 'name' : 'Media Prompt', 'color' : '#9CBD59'},
+  'IP' : { 'name' : 'Image Prompt', 'color' : '#411D55'},
+  'RF' : { 'name' : 'Reality Fiction', 'color' : '#174D4D'},
+  'PM' : { 'name' : 'Prompt Me', 'color' : '#2F2258'},
+  'PI' : { 'name' : 'Prompt Inspired', 'color' : '#807127'},
+  'CC' : { 'name' : 'Constructive Criticism', 'color' : '#671F48'},
+  'FF' : { 'name' : 'Flash Fiction', 'color' : '#DA552F'}
 }
 
 var {
@@ -34,10 +36,20 @@ var Prompts = React.createClass({
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       prompts : this.props.prompts,
-      dataSource: ds.cloneWithRows(this.props.prompts),
+      dataSource: ds.cloneWithRows(this.props.prompts)
     };
   },
 
+  componentWillMount: function() {
+    Icon.getImageSource('ios-bookmarks-outline', 30)
+      .then((source) => {
+        this.setState({ saveIcon: source })
+      });
+    Icon.getImageSource('ios-arrow-thin-left', 30)
+      .then((source) => {
+        this.setState({ backIcon: source })
+      });
+  },
 
   render: function() {
     return (
@@ -49,8 +61,8 @@ var Prompts = React.createClass({
   },
 
   renderCell: function(item) {
-    var type = types[item.data.title.substring(1, 3).toUpperCase()];
-    var title = item.data.title.substring(item.data.title.indexOf("]") + 1).trim();
+    var type = types[item.data.title.split('[')[1].split(']')[0]];
+    var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
       <PromptCell
         onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author)}
@@ -62,15 +74,24 @@ var Prompts = React.createClass({
 
   goToPrompt: function(index, type, title, author) {
     this.props.navigator.push({
-      title: type,
+      title: type.name,
       component: Comments,
-      backButtonTitle: '',
+      rightButtonIcon: this.state.saveIcon,
+      backButtonTitle: ' ',
+      onRightButtonPress: this.savePrompt,
+      backButtonIcon: this.state.backIcon,
       passProps: {
         promptId: index,
         title: title,
-        author: author
+        type: type,
+        author: author,
+        saveIcon: this.state.saveIcon
       }
     })
+  },
+
+  savePrompt: function() {
+    alert('ok');
   }
 
 
