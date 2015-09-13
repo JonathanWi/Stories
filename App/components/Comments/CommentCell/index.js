@@ -13,6 +13,7 @@ var CommentCell = React.createClass({
     return {
       author: this.props.author,
       body: this.props.body,
+      color: this.props.color,
     }
   },
 
@@ -37,7 +38,7 @@ var CommentCell = React.createClass({
       <View style={styles.container}>
         <View style={{flex: 1}}>
           <Text style={styles.author}>
-            {this.state.author} <Text style={{color:'#AAA'}}> | {_estimatedTime} </Text>
+            <Text style={{color:this.state.color}}>{this.state.author} </Text><Text style={{color:'#AAA'}}> | {_estimatedTime} </Text>
           </Text>
           <Text style={styles.body}>
             {this.state.body}

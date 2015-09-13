@@ -21,7 +21,8 @@ var styles = StyleSheet.create({
     marginLeft: 25,
     color: '#333',
     fontFamily: 'Times',
-    lineHeight: 27
+    lineHeight: 27,
+    textAlign: 'justify'
   },
   author: {
     fontSize: 15,
@@ -30,7 +31,6 @@ var styles = StyleSheet.create({
     marginTop: 15,
     marginRight: 10,
     marginLeft: 25,
-    color: '#DA552F',
     lineHeight: 25,
     letterSpacing : 1
   },

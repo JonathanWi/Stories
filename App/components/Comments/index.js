@@ -2,6 +2,7 @@ var React = require('react-native');
 var styles = require('./styles.js');
 
 var PromptsActions = require('../../actions/PromptsActions');
+var NavigationActions = require('../../actions/NavigationActions');
 var CommentStore = require('../../stores/CommentStore');
 
 var Loading = require('../Loading');
@@ -16,9 +17,10 @@ var {
   Text,
   TouchableHighlight,
   ListView,
-  AppStateIOS
+  ScrollView,
+  AppStateIOS,
+  ActivityIndicatorIOS
 } = React;
-
 
 var Comments = React.createClass({
 
@@ -37,10 +39,12 @@ var Comments = React.createClass({
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
     RedditApi.getPromptComments(this.state.promptId);
+    NavigationActions.switchNavColor({'barTintColor' : this.state.type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
   },
 
   componentWillUnmount: function() {
     CommentStore.removeChangeListener(this._onChange);
+    // NavigationActions.switchNavColor({'barTintColor' : '#FFFFFF', 'tintColor' : '#000000', 'titleTextColor' : '#000000', 'statusBar' : 1, 'shadowHidden' : false});
   },
 
   _onChange: function() {
@@ -50,18 +54,13 @@ var Comments = React.createClass({
 
 
   render: function() {
-    while (!this.state.loaded) {
-      return (
-        this.renderLoading()
-        )
-    }
-
     return (
       <ListView
         renderHeader={this.renderHeader}
+        renderFooter={this.renderFooter}
         dataSource={this.state.dataSource}
         renderRow={this.renderCell}
-      />
+      /> 
     );
   },
 
@@ -82,24 +81,35 @@ var Comments = React.createClass({
       )
   },
 
+  renderFooter: function() {
+    while (!this.state.loaded) {
+      return (
+        this.renderLoading()
+        )
+    }
+  },
+
   renderCell: function(item) {
     var author = item.data.author;
     var body = item.data.body.trim();
     return (
       <CommentCell
         author={author}
-        body={body} />
+        body={body}
+        color={this.state.type.color} />
       )
   },
 
   renderLoading: function() {
     return (
-      <View style={styles.container}>
-        <Loading
-          loaded={this.state.loaded} />
+      <View style={{flex: 1,backgroundColor: '#FFFFFF',justifyContent: 'center',alignItems: 'center'}}>
+          <ActivityIndicatorIOS
+            animating={!this.state.loaded}
+            style={{alignItems: 'center',justifyContent: 'center',height: 80}}
+            size="large" />
       </View>
       )
-  },
+  }
 
 })
 

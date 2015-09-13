@@ -4,7 +4,9 @@ var styles = require('./styles.js');
 var Comments = require('../Comments');
 var PromptCell = require('./PromptCell');
 
-var PromptsActions = require('../../actions/PromptsActions');
+var PromptStore = require('../../stores/PromptStore');
+
+var RedditApi = require('../../utils/RedditApi');
 
 var Icon = require('react-native-vector-icons/Ionicons');
 
@@ -24,19 +26,26 @@ var types = {
 
 var {
   View,
-  NavigatorIOS,
-  Text,
   ScrollView,
-  TouchableHighlight,
-  ListView
+  ListView,
+  ActivityIndicatorIOS
 } = React;
 
+RedditApi.getPromptsData();
+
 var Prompts = React.createClass({
+
   getInitialState: function() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
-      prompts : this.props.prompts,
-      dataSource: ds.cloneWithRows(this.props.prompts)
+      dataBlob: {},
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+        sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+        }),
+      prompts: PromptStore.getPrompts(),
+      currentPage: 0,
+      loaded: false,
+      loadMore: false
     };
   },
 
@@ -51,17 +60,70 @@ var Prompts = React.createClass({
       });
   },
 
+  componentDidMount: function() {
+    PromptStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    PromptStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    var tempDataBlob = this.state.dataBlob;
+    tempDataBlob[this.state.currentPage] = PromptStore.getPrompts();
+    this.setState({
+      currentPage: this.state.currentPage + 1,
+      prompts: PromptStore.getPrompts(),
+      dataBlob: tempDataBlob,
+      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob),
+      loaded: true,
+      loadMore: false
+    });
+  },
+
   render: function() {
+    while (!this.state.loaded) {
+      return (
+        this.renderLoading()
+        )
+    }
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderCell}
+        renderFooter={this.renderFooter}
+        onEndReached={this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id)}
       />
     );
   },
 
+  renderLoading: function() {
+    return (
+      <ScrollView>
+        <View style={{flex: 1,backgroundColor: '#FFFFFF',justifyContent: 'center',alignItems: 'center'}}>
+          <ActivityIndicatorIOS
+            animating={!this.state.loaded}
+            style={{alignItems: 'center',justifyContent: 'center',height: 80}}
+            size="large" />
+        </View>
+      </ScrollView>
+      )
+  },
+
+  renderFooter: function() {
+    while (this.state.loadMore) {
+      return (
+        <View style={{flex: 1,backgroundColor: '#FFFFFF',justifyContent: 'center',alignItems: 'center', 'marginTop' : 30}}>
+          <ActivityIndicatorIOS
+            animating={true}
+            size={'large'} />
+        </View>
+        )
+    }
+  },
+
   renderCell: function(item) {
-    var type = types[item.data.title.split('[')[1].split(']')[0]];
+    var type = types[item.data.title.split('[')[1].split(']')[0].toUpperCase()];
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
       <PromptCell
@@ -72,12 +134,17 @@ var Prompts = React.createClass({
       )
   },
 
+  pullMorePrompts: function(index) {
+    this.setState({loadMore: true}); 
+    RedditApi.getPromptsData(index);
+  },
+
   goToPrompt: function(index, type, title, author) {
     this.props.navigator.push({
-      title: type.name,
       component: Comments,
       rightButtonIcon: this.state.saveIcon,
       backButtonTitle: ' ',
+      title: type.name,
       onRightButtonPress: this.savePrompt,
       backButtonIcon: this.state.backIcon,
       passProps: {
@@ -85,7 +152,8 @@ var Prompts = React.createClass({
         title: title,
         type: type,
         author: author,
-        saveIcon: this.state.saveIcon
+        saveIcon: this.state.saveIcon,
+        lolilol: true
       }
     })
   },
