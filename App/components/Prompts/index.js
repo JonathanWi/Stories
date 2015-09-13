@@ -6,8 +6,6 @@ var PromptCell = require('./PromptCell');
 
 var PromptStore = require('../../stores/PromptStore');
 
-var NavigationActions = require('../../actions/NavigationActions');
-
 var RedditApi = require('../../utils/RedditApi');
 
 var Icon = require('react-native-vector-icons/Ionicons');
@@ -138,7 +136,6 @@ var Prompts = React.createClass({
   },
 
   goToPrompt: function(index, type, title, author) {
-    NavigationActions.switchNavColor({'barTintColor' : type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
     this.props.navigator.push({
       component: Comments,
       rightButtonIcon: this.state.saveIcon,

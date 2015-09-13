@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
     marginBottom: 25,
     color: '#333',
     fontFamily: 'Georgia',
-    lineHeight: 27,
+    lineHeight: 34,
     textAlign: 'justify'
   },
   author: {

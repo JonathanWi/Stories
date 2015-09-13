@@ -3,6 +3,8 @@ var styles = require('./styles.js');
 
 var CommentStore = require('../../stores/CommentStore');
 
+var NavigationActions = require('../../actions/NavigationActions');
+
 var CommentCell = require('./CommentCell');
 
 var RedditApi = require('../../utils/RedditApi');
@@ -22,13 +24,18 @@ var {
 var Comments = React.createClass({
 
   getInitialState: function() {
+    console.log(this.props.promptId);
     return {
       promptId : this.props.promptId,
       title : this.props.title,
       type : this.props.type,
       author : this.props.author,
-      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-      comments : CommentStore.getComments(),
+      dataBlob: {},
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+        sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+        }),
+      comments: CommentStore.getComments(),
       loaded : false
     };
   },
@@ -36,6 +43,7 @@ var Comments = React.createClass({
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
     RedditApi.getPromptComments(this.state.promptId);
+    NavigationActions.switchNavColor({'barTintColor' : this.state.type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
   },
 
   componentWillUnmount: function() {
@@ -43,10 +51,15 @@ var Comments = React.createClass({
   },
 
   _onChange: function() {
+    var tempDataBlob = this.state.dataBlob;
+    tempDataBlob[0] = CommentStore.getComments();
     this.setState({
-      'comments' : CommentStore.getComments(), 
-      'loaded' : true,
-      'dataSource' : this.state.dataSource.cloneWithRows(this.state.comments)});
+      currentPage: this.state.currentPage + 1,
+      comments: CommentStore.getComments(),
+      dataBlob: tempDataBlob,
+      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob),
+      loaded: true,
+    });
   },
 
 
