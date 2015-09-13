@@ -1,49 +1,58 @@
 var React = require('react-native');
 var styles = require('./styles.js');
 
+var NavigationStore = require('../../stores/NavigationStore');
+
 var Prompts = require('../Prompts');
 
-var Icon = require('react-native-vector-icons/Ionicons');
-
-
 var {
-  View,
-  TabBarIOS,
   NavigatorIOS,
-  Text
+  StatusBarIOS
 } = React;
 
 var Main = React.createClass({
   getInitialState: function() {
     return {
-      prompts: this.props.prompts,
+      navigation: NavigationStore.getNavigationSettings()
     }
   },
 
   componentWillMount: function() {
-    Icon.getImageSource('bookmark', 30)
-      .then((source) => {
-        this.setState({ backIcon: source })
-      });
+    StatusBarIOS.setStyle(this.state.navigation.statusBar, true);
+  },
+
+   // Add change listeners to stores
+  componentDidMount: function() {
+    NavigationStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnMount: function() {
+    NavigationStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({navigation: NavigationStore.getNavigationSettings()});
+    StatusBarIOS.setStyle(this.state.navigation.statusBar, true);
   },
 
   render: function() {
     return (
       <NavigatorIOS
+        ref="nav"
         style={styles.container}
-        tintColor='#DA552F'
-        barTintColor='#FFF'
-        titleTextColor='#DA552F'
+        translucent={false}
+        shadowHidden={this.state.navigation.shadowHidden}
+        tintColor={this.state.navigation.tintColor}
+        barTintColor={this.state.navigation.barTintColor}
+        titleTextColor={this.state.navigation.titleTextColor}
         initialRoute={{
           title: 'Stories',
           component: Prompts,
-          passProps: {
-            prompts: this.state.prompts,
-          }
+          backButtonTitle: ' '
         }} 
       />
     )
-  }
+  },
 
 })
 

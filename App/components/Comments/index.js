@@ -1,10 +1,8 @@
 var React = require('react-native');
 var styles = require('./styles.js');
 
-var PromptsActions = require('../../actions/PromptsActions');
 var CommentStore = require('../../stores/CommentStore');
 
-var Loading = require('../Loading');
 var CommentCell = require('./CommentCell');
 
 var RedditApi = require('../../utils/RedditApi');
@@ -16,9 +14,10 @@ var {
   Text,
   TouchableHighlight,
   ListView,
-  AppStateIOS
+  ScrollView,
+  AppStateIOS,
+  ActivityIndicatorIOS
 } = React;
-
 
 var Comments = React.createClass({
 
@@ -44,24 +43,21 @@ var Comments = React.createClass({
   },
 
   _onChange: function() {
-    this.setState({'comments' : CommentStore.getComments(), 'loaded' : true});
-    this.setState({'dataSource' : this.state.dataSource.cloneWithRows(this.state.comments)})
+    this.setState({
+      'comments' : CommentStore.getComments(), 
+      'loaded' : true,
+      'dataSource' : this.state.dataSource.cloneWithRows(this.state.comments)});
   },
 
 
   render: function() {
-    while (!this.state.loaded) {
-      return (
-        this.renderLoading()
-        )
-    }
-
     return (
       <ListView
         renderHeader={this.renderHeader}
+        renderFooter={this.renderFooter}
         dataSource={this.state.dataSource}
         renderRow={this.renderCell}
-      />
+      /> 
     );
   },
 
@@ -82,24 +78,35 @@ var Comments = React.createClass({
       )
   },
 
+  renderFooter: function() {
+    while (!this.state.loaded) {
+      return (
+        this.renderLoading()
+        )
+    }
+  },
+
   renderCell: function(item) {
     var author = item.data.author;
     var body = item.data.body.trim();
     return (
       <CommentCell
         author={author}
-        body={body} />
+        body={body}
+        color={this.state.type.color} />
       )
   },
 
   renderLoading: function() {
     return (
-      <View style={styles.container}>
-        <Loading
-          loaded={this.state.loaded} />
+      <View style={{flex: 1,backgroundColor: '#FFFFFF',justifyContent: 'center',alignItems: 'center'}}>
+          <ActivityIndicatorIOS
+            animating={!this.state.loaded}
+            style={{alignItems: 'center',justifyContent: 'center',height: 80}}
+            size="large" />
       </View>
       )
-  },
+  }
 
 })
 

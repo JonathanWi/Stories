@@ -4,7 +4,6 @@ var styles = require('./styles');
 var {
   Text,
   View,
-  Image,
   TouchableHighlight
 } = React;
 
@@ -20,7 +19,7 @@ var PromptCell = React.createClass({
 
   render: function() {
     return (
-      <TouchableHighlight onPress={this.props.onSelect}>
+      <TouchableHighlight activeOpacity="0.5" underlayColor="#FFF" onPress={this.props.onSelect}>
         <View style={styles.container}>
           <View style={{flex: 1}}>
             <Text style={styles.title}>
