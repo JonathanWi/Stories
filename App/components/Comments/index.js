@@ -1,11 +1,8 @@
 var React = require('react-native');
 var styles = require('./styles.js');
 
-var PromptsActions = require('../../actions/PromptsActions');
-var NavigationActions = require('../../actions/NavigationActions');
 var CommentStore = require('../../stores/CommentStore');
 
-var Loading = require('../Loading');
 var CommentCell = require('./CommentCell');
 
 var RedditApi = require('../../utils/RedditApi');
@@ -39,17 +36,17 @@ var Comments = React.createClass({
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
     RedditApi.getPromptComments(this.state.promptId);
-    NavigationActions.switchNavColor({'barTintColor' : this.state.type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
   },
 
   componentWillUnmount: function() {
     CommentStore.removeChangeListener(this._onChange);
-    // NavigationActions.switchNavColor({'barTintColor' : '#FFFFFF', 'tintColor' : '#000000', 'titleTextColor' : '#000000', 'statusBar' : 1, 'shadowHidden' : false});
   },
 
   _onChange: function() {
-    this.setState({'comments' : CommentStore.getComments(), 'loaded' : true});
-    this.setState({'dataSource' : this.state.dataSource.cloneWithRows(this.state.comments)})
+    this.setState({
+      'comments' : CommentStore.getComments(), 
+      'loaded' : true,
+      'dataSource' : this.state.dataSource.cloneWithRows(this.state.comments)});
   },
 
 

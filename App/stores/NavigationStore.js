@@ -5,7 +5,7 @@ var _ = require('../../node_modules/react-native/node_modules/underscore');
 
 
 // Define initial data points
-var _navigationSettings = {'barTintColor' : '#FFFFFF', 'tintColor' : '#000000', 'titleTextColor' : '#000000', 'statusBar' : 1, 'shadowHidden' : false};
+var _navigationSettings = {'barTintColor' : '#802727', 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true};
 
 // Method to load comments from reddit API
 function setNavigation(data) {

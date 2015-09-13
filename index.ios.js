@@ -7,8 +7,6 @@ var Main = require('./App/components/Main');
 
 var _ = require('./node_modules/react-native/node_modules/underscore');
 
-var RedditApi = require('./App/utils/RedditApi');
-
 
 var {
   AppRegistry,

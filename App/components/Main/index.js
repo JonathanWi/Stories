@@ -2,12 +2,8 @@ var React = require('react-native');
 var styles = require('./styles.js');
 
 var NavigationStore = require('../../stores/NavigationStore');
-var NavigationActions = require('../../actions/NavigationActions');
 
 var Prompts = require('../Prompts');
-
-var Icon = require('react-native-vector-icons/Ionicons');
-
 
 var {
   NavigatorIOS,
@@ -21,19 +17,22 @@ var Main = React.createClass({
     }
   },
 
+  componentWillMount: function() {
+    StatusBarIOS.setStyle(this.state.navigation.statusBar, true);
+  },
+
    // Add change listeners to stores
   componentDidMount: function() {
     NavigationStore.addChangeListener(this._onChange);
   },
 
-  // Remove change listeners from stores
-  componentWillUnmount: function() {
+  componentWillUnMount: function() {
     NavigationStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
-    StatusBarIOS.setStyle(this.state.navigation.statusBar, true);
     this.setState({navigation: NavigationStore.getNavigationSettings()});
+    StatusBarIOS.setStyle(this.state.navigation.statusBar, true);
   },
 
   render: function() {
@@ -53,7 +52,7 @@ var Main = React.createClass({
         }} 
       />
     )
-  }
+  },
 
 })
 
