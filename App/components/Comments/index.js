@@ -29,6 +29,7 @@ var Comments = React.createClass({
       title : this.props.title,
       type : this.props.type,
       author : this.props.author,
+      selftext: this.props.selftext,
       dataBlob: {},
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
@@ -74,6 +75,50 @@ var Comments = React.createClass({
   },
 
   renderHeader: function() {
+    if(this.state.selftext !== '') {
+
+      // If image prompts, display image caroussel
+      if(this.state.type.name === 'Image Prompt') {
+        var geturl = new RegExp(
+          "((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))"
+         ,"g"
+        ),
+        urls = this.state.selftext.match(geturl);
+
+        return (
+          <View style={{backgroundColor:this.state.type.color}}>
+            <View style={styles.header}>
+              <Text style={styles.title}>
+                {this.state.title}
+              </Text>
+              <View style={{opacity:.5}}>
+                <Text style={styles.author}>
+                  — {this.state.author}
+                </Text>
+              </View>
+            </View>
+          </View>
+        );
+      }
+
+      // If writing prompt has selftext, display a carousel containing title & selftext
+      else {
+        return (
+          <View style={{backgroundColor:this.state.type.color}}>
+            <View style={styles.header}>
+              <Text style={styles.title}>
+                {this.state.title}
+              </Text>
+              <View style={{opacity:.5}}>
+                <Text style={styles.author}>
+                  — {this.state.author}
+                </Text>
+              </View>
+            </View>
+          </View>
+        );
+      }
+    }
     return (
       <View style={{backgroundColor:this.state.type.color}}>
         <View style={styles.header}>
@@ -87,7 +132,7 @@ var Comments = React.createClass({
           </View>
         </View>
       </View>
-      )
+    );
   },
 
   renderFooter: function() {

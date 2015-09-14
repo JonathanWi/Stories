@@ -20,7 +20,7 @@ var styles = StyleSheet.create({
     borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    borderBottomColor: '#ccc',
+    borderBottomColor: '#E9E9E9',
   },
 });
 
