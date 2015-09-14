@@ -8,6 +8,7 @@
   "dependencies": {
     "events": "^1.0.2",
     "react-native": "^0.10.1",
+    "react-native-scrollable-tab-view": "^0.1.10",
     "react-native-vector-icons": "^0.6.2"
   },
   "devDependencies": {

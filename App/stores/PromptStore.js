@@ -8,16 +8,16 @@ var _ = require('../../node_modules/react-native/node_modules/underscore');
 var _prompts = {};
 
 // Method to load prompts from reddit API
-function loadPrompts(data) {
-  _prompts = data;
+function loadPrompts(data, feed) {
+  _prompts[feed] = data;
 }
 
 // Extend PromptStore with EventEmitter to add eventing capabilities
 var PromptStore = _.extend({}, EventEmitter.prototype, {
 
   // Return prompts
-  getPrompts: function() {
-    return _prompts;
+  getPrompts: function(feed) {
+    return _prompts[feed];
   },
 
   // Emit Change Event
@@ -46,7 +46,7 @@ AppDispatcher.register(function(payload) {
     
     // Respond to GET_PROMPTS action
     case AppConstants.GET_PROMPTS:
-      loadPrompts(action.data);
+      loadPrompts(action.data, action.feed);
       break;
 
     default:

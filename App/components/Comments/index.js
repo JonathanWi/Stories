@@ -24,7 +24,6 @@ var {
 var Comments = React.createClass({
 
   getInitialState: function() {
-    console.log(this.props.promptId);
     return {
       promptId : this.props.promptId,
       title : this.props.title,

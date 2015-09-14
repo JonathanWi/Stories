@@ -21,7 +21,8 @@ var types = {
   'PM' : { 'name' : 'Prompt Me', 'color' : '#2F2258'},
   'PI' : { 'name' : 'Prompt Inspired', 'color' : '#807127'},
   'CC' : { 'name' : 'Constructive Criticism', 'color' : '#671F48'},
-  'FF' : { 'name' : 'Flash Fiction', 'color' : '#DA552F'}
+  'FF' : { 'name' : 'Flash Fiction', 'color' : '#DA552F'},
+  'OT' : { 'name' : 'Off Topic', 'color' : '#671F48' }
 }
 
 var {
@@ -31,18 +32,17 @@ var {
   ActivityIndicatorIOS
 } = React;
 
-RedditApi.getPromptsData();
-
 var Prompts = React.createClass({
 
   getInitialState: function() {
     return {
+      feed: this.props.feed,
       dataBlob: {},
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
         sectionHeaderHasChanged: (s1, s2) => s1 !== s2
         }),
-      prompts: PromptStore.getPrompts(),
+      prompts: PromptStore.getPrompts(this.props.feed),
       currentPage: 0,
       loaded: false,
       loadMore: false
@@ -57,6 +57,7 @@ var Prompts = React.createClass({
   },
 
   componentDidMount: function() {
+    RedditApi.getPromptsData(this.state.feed, null);
     PromptStore.addChangeListener(this._onChange);
   },
 
@@ -66,10 +67,10 @@ var Prompts = React.createClass({
 
   _onChange: function() {
     var tempDataBlob = this.state.dataBlob;
-    tempDataBlob[this.state.currentPage] = PromptStore.getPrompts();
+    tempDataBlob[this.state.currentPage] = PromptStore.getPrompts(this.state.feed);
     this.setState({
       currentPage: this.state.currentPage + 1,
-      prompts: PromptStore.getPrompts(),
+      prompts: PromptStore.getPrompts(this.state.feed),
       dataBlob: tempDataBlob,
       dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob),
       loaded: true,
@@ -119,7 +120,11 @@ var Prompts = React.createClass({
   },
 
   renderCell: function(item) {
-    var type = types[item.data.title.split('[')[1].split(']')[0].toUpperCase()];
+    var parsedType = item.data.title.split('[')[1].split(']')[0].toUpperCase();
+    if(parsedType.length > 2) {
+      parsedType = parsedType.substring(0,2);
+    }
+    var type = types[parsedType];
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
       <PromptCell
@@ -132,7 +137,7 @@ var Prompts = React.createClass({
 
   pullMorePrompts: function(index) {
     this.setState({loadMore: true}); 
-    RedditApi.getPromptsData(index);
+    RedditApi.getPromptsData(this.state.feed, index);
   },
 
   goToPrompt: function(index, type, title, author) {
@@ -148,8 +153,7 @@ var Prompts = React.createClass({
         title: title,
         type: type,
         author: author,
-        saveIcon: this.state.saveIcon,
-        lolilol: true
+        saveIcon: this.state.saveIcon
       }
     })
   },
