@@ -6,10 +6,11 @@ var AppConstants = require('../constants/AppConstants');
 var PromptsActions = {
 
 	// Receive all prompts
-	getPrompts: function(data) {
+	getPrompts: function(data, feed) {
 		AppDispatcher.handleAction({
 			actionType: AppConstants.GET_PROMPTS,
-			data: data
+			data: data,
+			feed: feed
 		})
 	},
 

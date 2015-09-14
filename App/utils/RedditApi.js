@@ -2,12 +2,26 @@ var PromptsActions = require('../actions/PromptsActions');
 var _ = require('../../node_modules/react-native/node_modules/underscore');
 
 var RedditApi = {
-	getPromptsData: function(index) {
+	getPromptsData: function(feed, index) {
 		index = typeof index !== 'undefined' ? index : null;
-		var url = 'https://api.reddit.com/r/WritingPrompts?limit=25';
-		if(index) {
-			url += '&after=t3_' + index;
+		var url = 'https://api.reddit.com/r/WritingPrompts';
+
+		// Defining which feed to pull data from
+		switch (feed) 
+		{
+			case 'new': 
+				url += '/new';
+				break;
+			case 'top':
+				url += '/top'
+				break;
 		}
+
+		// Check index to start from when loading more data
+		if(index) {
+			url += '?limit=25&after=t3_' + index;
+		}
+
 		return fetch(url)
 		.then(function(data) {
 			var _data = JSON.parse(data._bodyInit);
@@ -15,7 +29,7 @@ var RedditApi = {
 			_data = _.filter(_data, function(item) {
 				return item.data.stickied === false;
 			})
-			PromptsActions.getPrompts(_data);
+			PromptsActions.getPrompts(_data, feed);
 		});
 	},
 

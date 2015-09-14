@@ -3,7 +3,7 @@ var styles = require('./styles.js');
 
 var NavigationStore = require('../../stores/NavigationStore');
 
-var Prompts = require('../Prompts');
+var Tabs = require('../Tabs');
 
 var {
   NavigatorIOS,
@@ -47,7 +47,7 @@ var Main = React.createClass({
         titleTextColor={this.state.navigation.titleTextColor}
         initialRoute={{
           title: 'Stories',
-          component: Prompts,
+          component: Tabs,
           backButtonTitle: ' '
         }} 
       />
