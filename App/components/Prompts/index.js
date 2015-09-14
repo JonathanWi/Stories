@@ -128,11 +128,13 @@ var Prompts = React.createClass({
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
       <PromptCell
-        onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author)}
+        onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author, item.data.selftext)}
         type={type}
         title={title}
+        numComments = {item.data.num_comments}
         author={item.data.author} />
       )
+    
   },
 
   pullMorePrompts: function(index) {
@@ -140,7 +142,7 @@ var Prompts = React.createClass({
     RedditApi.getPromptsData(this.state.feed, index);
   },
 
-  goToPrompt: function(index, type, title, author) {
+  goToPrompt: function(index, type, title, author, selftext) {
     this.props.navigator.push({
       component: Comments,
       rightButtonIcon: this.state.saveIcon,
@@ -153,6 +155,7 @@ var Prompts = React.createClass({
         title: title,
         type: type,
         author: author,
+        selftext: selftext,
         saveIcon: this.state.saveIcon
       }
     })

@@ -9,6 +9,8 @@ var CommentCell = require('./CommentCell');
 
 var RedditApi = require('../../utils/RedditApi');
 
+var Lightbox = require('react-native-lightbox');
+var Icon = require('react-native-vector-icons/Ionicons');
 
 var {
   View,
@@ -16,6 +18,7 @@ var {
   Text,
   TouchableHighlight,
   ListView,
+  Image,
   ScrollView,
   AppStateIOS,
   ActivityIndicatorIOS
@@ -29,6 +32,7 @@ var Comments = React.createClass({
       title : this.props.title,
       type : this.props.type,
       author : this.props.author,
+      selftext: this.props.selftext,
       dataBlob: {},
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
@@ -74,20 +78,58 @@ var Comments = React.createClass({
   },
 
   renderHeader: function() {
-    return (
-      <View style={{backgroundColor:this.state.type.color}}>
-        <View style={styles.header}>
-          <Text style={styles.title}>
-            {this.state.title}
-          </Text>
-          <View style={{opacity:.5}}>
-            <Text style={styles.author}>
-              — {this.state.author}
+    // If image prompts, display image in header
+    if(this.state.type.name === 'Image Prompt') {
+      // Extract Image URL from selftext
+      var geturl = new RegExp(
+        "((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))"
+       ,"g"
+      ),
+      urls = this.state.selftext.match(geturl);
+      console.log(urls);
+      return (
+        <View style={{backgroundColor:this.state.type.color}}>
+          <View style={styles.header}>
+            <Text style={styles.title}>
+              {this.state.title}
             </Text>
+            <View style={{opacity:.5}}>
+              <Icon name="ios-search-strong" style={styles.magnify}>
+                <Text style={styles.instructions}>Tap to zoom</Text>
+              </Icon>
+            </View>
+            <Lightbox>
+              <Image
+                style={styles.cover}
+                resizeMode="cover"
+                source={{ uri: urls[0] }}
+              />
+            </Lightbox>
+            <View style={{opacity:.5}}>
+              <Text style={styles.author}>
+                — {this.state.author}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-      )
+      );
+    }
+    else {
+      return (
+        <View style={{backgroundColor:this.state.type.color}}>
+          <View style={styles.header}>
+            <Text style={styles.title}>
+              {this.state.title}
+            </Text>
+            <View style={{opacity:.5}}>
+              <Text style={styles.author}>
+                — {this.state.author}
+              </Text>
+            </View>
+          </View>
+        </View>
+      );
+    }
   },
 
   renderFooter: function() {

@@ -26,7 +26,7 @@ var CustomTabBar = React.createClass({
         <View style={[styles.tab]}>
           <Text 
             style={{
-              color: isTabActive ? '#000' : 'black', 
+              color: isTabActive ? '#000' : '#AAA', 
               fontWeight: isTabActive ? 'bold' : 'normal',
               fontSize:13,
               letterSpacing: 1
@@ -49,7 +49,7 @@ var CustomTabBar = React.createClass({
     var tabUnderlineStyle = {
       position: 'absolute',
       width: deviceWidth / numberOfTabs,
-      height: 4,
+      height: 1,
       backgroundColor: '#000',
       bottom: 0,
     };

@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'left',
     marginTop: 25,
-    marginBottom: 4,
+    marginBottom: 10,
     color: '#333',
     fontFamily: 'Georgia',
     lineHeight: 34

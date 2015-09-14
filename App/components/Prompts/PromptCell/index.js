@@ -19,14 +19,14 @@ var PromptCell = React.createClass({
 
   render: function() {
     return (
-      <TouchableHighlight activeOpacity="0.5" underlayColor="#FFF" onPress={this.props.onSelect}>
+      <TouchableHighlight activeOpacity={0.5} underlayColor="#FFF" onPress={this.props.onSelect}>
         <View style={styles.container}>
           <View style={{flex: 1}}>
             <Text style={styles.title}>
               {this.state.title}
             </Text>
             <Text style={styles.type}>
-              <Text style={{fontWeight:'bold'}}>{this.state.author}</Text> | <Text style={{color:this.state.type.color}}>{this.state.type.name}</Text>
+              {this.state.author} | <Text style={{color:this.state.type.color, fontSize: 11}}>{this.state.type.name.toUpperCase()}</Text>
             </Text>
           </View>
           <View style={styles.separator}></View>
