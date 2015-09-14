@@ -3,6 +3,7 @@ var styles = require('./styles.js');
 
 var Comments = require('../Comments');
 var PromptCell = require('./PromptCell');
+var ImagePromptCell = require('./ImagePromptCell');
 
 var PromptStore = require('../../stores/PromptStore');
 
@@ -126,13 +127,33 @@ var Prompts = React.createClass({
     }
     var type = types[parsedType];
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
-    return (
-      <PromptCell
+    if(parsedType === 'IP') {
+      var geturl = new RegExp(
+          "((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))"
+         ,"g"
+      );
+
+      var text = item.data.selftext,
+          urls = text.match(geturl);
+          
+      console.log(urls);
+      return (
+      <ImagePromptCell
         onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author)}
         type={type}
         title={title}
         author={item.data.author} />
       )
+    } else {
+      return (
+        <PromptCell
+          onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author)}
+          type={type}
+          title={title}
+          author={item.data.author} />
+        )
+    }
+    
   },
 
   pullMorePrompts: function(index) {
