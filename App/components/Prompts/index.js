@@ -126,8 +126,6 @@ var Prompts = React.createClass({
     }
     var type = types[parsedType];
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
-    console.log(title);
-    console.log(item.data.selftext);
     return (
       <PromptCell
         onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author, item.data.selftext)}
