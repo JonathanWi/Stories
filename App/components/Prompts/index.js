@@ -9,6 +9,7 @@ var PromptStore = require('../../stores/PromptStore');
 var RedditApi = require('../../utils/RedditApi');
 
 var Icon = require('react-native-vector-icons/Ionicons');
+var reactNativeStore = require('react-native-store');
 
 var types = {
   'WP' : { 'name' : 'Writing Prompts', 'color': '#802727'},
@@ -42,7 +43,7 @@ var Prompts = React.createClass({
         rowHasChanged: (r1, r2) => r1 !== r2,
         sectionHeaderHasChanged: (s1, s2) => s1 !== s2
         }),
-      prompts: PromptStore.getPrompts(this.props.feed),
+      prompts: {},
       currentPage: 0,
       loaded: false,
       loadMore: false
@@ -54,10 +55,35 @@ var Prompts = React.createClass({
       .then((source) => {
         this.setState({ saveIcon: source })
       });
+    if(this.state.feed === 'saved') {
+      var _this = this;
+      reactNativeStore.model("prompts").then(function(db) {
+        db.find().then(function(data) {
+          var _prompts = [];
+          for (var i = 0; i < data.length; i++) {
+            _prompts[i] = data[i].prompt;
+          };
+          _prompts = _prompts.reverse();
+          var tempDataBlob = _this.state.dataBlob;
+          tempDataBlob[_this.state.currentPage] = _prompts;
+
+          _this.setState({
+            currentPage: _this.state.currentPage + 1,
+            prompts: _prompts,
+            dataBlob: tempDataBlob,
+            dataSource: _this.state.dataSource.cloneWithRowsAndSections(_this.state.dataBlob),
+            loaded: true,
+            loadMore: false
+          });
+        })
+      });
+    }
   },
 
   componentDidMount: function() {
-    RedditApi.getPromptsData(this.state.feed, null);
+    if(this.state.feed !== 'saved') {
+      RedditApi.getPromptsData(this.state.feed, null);
+    }
     PromptStore.addChangeListener(this._onChange);
   },
 
@@ -89,7 +115,7 @@ var Prompts = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={this.renderCell}
         renderFooter={this.renderFooter}
-        onEndReached={this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id)}
+        onEndReached={this.state.feed !== 'saved' ? this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id) : null}
       />
     );
   },
@@ -128,7 +154,7 @@ var Prompts = React.createClass({
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
       <PromptCell
-        onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author, item.data.selftext)}
+        onSelect={() => this.goToPrompt(item, type, title)}
         type={type}
         title={title}
         numComments = {item.data.num_comments}
@@ -138,33 +164,37 @@ var Prompts = React.createClass({
   },
 
   pullMorePrompts: function(index) {
-    this.setState({loadMore: true}); 
-    RedditApi.getPromptsData(this.state.feed, index);
+    if(this.state.feed !== 'saved') {
+      this.setState({loadMore: true}); 
+      RedditApi.getPromptsData(this.state.feed, index);
+    }
   },
 
-  goToPrompt: function(index, type, title, author, selftext) {
+  goToPrompt: function(item, type, title) {
     this.props.navigator.push({
       component: Comments,
       rightButtonIcon: this.state.saveIcon,
       backButtonTitle: ' ',
       title: type.name,
-      onRightButtonPress: this.savePrompt,
+      onRightButtonPress: () => { this._resultsView && this._resultsView.savePrompt(); },
       backButtonIcon: this.state.backIcon,
       passProps: {
-        promptId: index,
+        item: item,
+        promptId: item.data.id,
         title: title,
         type: type,
-        author: author,
-        selftext: selftext,
-        saveIcon: this.state.saveIcon
+        author: item.data.author,
+        selftext: item.data.selftext,
+        saveIcon: this.state.saveIcon,
+        ref: this.onResultsRef,
+        fromSaved: this.state.feed === 'saved' ? true : false
       }
     })
   },
 
-  savePrompt: function() {
-    alert('ok');
+  onResultsRef(resultsViewRef) {
+    this._resultsView = resultsViewRef;
   }
-
 
 })
 

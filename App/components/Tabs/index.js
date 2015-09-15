@@ -18,7 +18,7 @@ var Tabs = React.createClass({
       <ScrollableTabView renderTabBar={() => <CustomTabBar />}>
         <Prompts navigator={this.props.navigator} feed='popular' tabLabel="Popular" />
         <Prompts navigator={this.props.navigator} feed='top' tabLabel="Top" />
-        <Prompts navigator={this.props.navigator} feed='new' tabLabel="New" />
+        <Prompts navigator={this.props.navigator} feed='saved' tabLabel="Saved" />
       </ScrollableTabView>
     );
   }

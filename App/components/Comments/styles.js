@@ -37,7 +37,13 @@ var styles = StyleSheet.create({
   instructions: {
     color: '#FFF',
     marginLeft: 5
-  }
+  },
+  toastText: {
+    color: '#ffffff',
+    padding: 15,
+    backgroundColor: 'transparent',
+    fontSize: 14,
+  },
 })
 
 module.exports = styles;

@@ -11,6 +11,7 @@ var RedditApi = require('../../utils/RedditApi');
 
 var Lightbox = require('react-native-lightbox');
 var Icon = require('react-native-vector-icons/Ionicons');
+var reactNativeStore = require('react-native-store');
 
 var {
   View,
@@ -21,6 +22,7 @@ var {
   Image,
   ScrollView,
   AppStateIOS,
+  TouchableOpacity,
   ActivityIndicatorIOS
 } = React;
 
@@ -28,6 +30,7 @@ var Comments = React.createClass({
 
   getInitialState: function() {
     return {
+      item : this.props.item,
       promptId : this.props.promptId,
       title : this.props.title,
       type : this.props.type,
@@ -39,14 +42,35 @@ var Comments = React.createClass({
         sectionHeaderHasChanged: (s1, s2) => s1 !== s2
         }),
       comments: CommentStore.getComments(),
-      loaded : false
+      loaded : false,
+      fromSaved: this.props.fromSaved,
+      isSaved: false
     };
   },
 
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
-    RedditApi.getPromptComments(this.state.promptId);
     NavigationActions.switchNavColor({'barTintColor' : this.state.type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
+    var _this = this;
+
+    reactNativeStore.model("prompts").then(function(db) {
+      db.find({id: _this.state.promptId})
+        .then(function(data) {
+          _this.setState({isSaved : data.length === 0 ? false : true});
+        })
+    })
+
+    if(this.state.fromSaved) {
+      reactNativeStore.model("prompts").then(function(db) {
+        db.find({id:_this.state.promptId})
+          .then(function(data) {
+            _this.updateDataBlob(data[0].comments)
+          })
+      })
+    } else {
+      RedditApi.getPromptComments(this.state.promptId);
+    }
+
   },
 
   componentWillUnmount: function() {
@@ -54,26 +78,31 @@ var Comments = React.createClass({
   },
 
   _onChange: function() {
+    this.updateDataBlob(CommentStore.getComments())
+  },
+
+  updateDataBlob: function(data) {
     var tempDataBlob = this.state.dataBlob;
-    tempDataBlob[0] = CommentStore.getComments();
+    tempDataBlob[0] = data;
     this.setState({
       currentPage: this.state.currentPage + 1,
-      comments: CommentStore.getComments(),
+      comments: data,
       dataBlob: tempDataBlob,
-      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob),
+      dataSource: this.state.dataSource.cloneWithRowsAndSections(tempDataBlob),
       loaded: true,
     });
   },
 
-
   render: function() {
     return (
-      <ListView
-        renderHeader={this.renderHeader}
-        renderFooter={this.renderFooter}
-        dataSource={this.state.dataSource}
-        renderRow={this.renderCell}
-      /> 
+        <ScrollView style={{position:'relative'}}>
+          <ListView
+            renderHeader={this.renderHeader}
+            renderFooter={this.renderFooter}
+            dataSource={this.state.dataSource}
+            renderRow={this.renderCell}
+          /> 
+        </ScrollView>
     );
   },
 
@@ -154,12 +183,37 @@ var Comments = React.createClass({
   renderLoading: function() {
     return (
       <View style={{flex: 1,backgroundColor: '#FFFFFF',justifyContent: 'center',alignItems: 'center'}}>
-          <ActivityIndicatorIOS
-            animating={!this.state.loaded}
-            style={{alignItems: 'center',justifyContent: 'center',height: 80}}
-            size="large" />
+        <ActivityIndicatorIOS
+          animating={!this.state.loaded}
+          style={{alignItems: 'center',justifyContent: 'center',height: 80}}
+          size="large" />
       </View>
       )
+  },
+
+  savePrompt: function() {
+    var prompt = {
+      id: this.state.promptId,
+      prompt: this.state.item,
+      comments: this.state.comments
+    }
+    var _this = this;
+    reactNativeStore.model("prompts").then(function(db) {
+      if(!_this.state.isSaved) {
+        db.add(prompt)
+          .then(function(data) {
+            console.log('added');
+            // Display toast & change icon
+          }) 
+        } else {
+          db.remove({id:prompt.id})
+            .then(function(data) {
+              console.log('removed');
+              // Display toast & change icon
+            }) 
+        }
+        
+    });
   }
 
 })
