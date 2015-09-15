@@ -101,7 +101,7 @@ var Comments = React.createClass({
             <Lightbox>
               <Image
                 style={styles.cover}
-                resizeMode="cover"
+                resizeMode="stretch"
                 source={{ uri: urls[0] }}
               />
             </Lightbox>
