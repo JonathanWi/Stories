@@ -14,6 +14,15 @@ var PromptsActions = {
 		})
 	},
 
+	// Prepend prompts after pull to refresh
+	pullToRefresh: function(data, feed) {
+		AppDispatcher.handleAction({
+			actionType: AppConstants.REFRESH_PROMPTS,
+			data: data,
+			feed: feed
+		})
+	},
+
 	// Get top comments from a prompt
 	getComments: function(data) {
 		AppDispatcher.handleAction({

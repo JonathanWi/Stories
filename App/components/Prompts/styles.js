@@ -9,7 +9,6 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    backgroundColor: '#FFFFFD',
     borderBottomColor: '#E9E9E9',
     borderBottomWidth: 1,
   },

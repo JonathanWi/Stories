@@ -18,6 +18,13 @@ function loadPrompts(data, feed) {
   }
 }
 
+function prependPrompts(data, feed) {
+  data.reverse();
+  for (var i = 0; i < data.length; i++) {
+    _prompts[feed].unshift(data[i])
+  };
+}
+
 function savePrompt(data) {
   _prompts['saved'].unshift(data);
 }
@@ -70,6 +77,10 @@ AppDispatcher.register(function(payload) {
     // Respond to GET_PROMPTS action
     case AppConstants.GET_PROMPTS:
       loadPrompts(action.data, action.feed);
+      break;
+
+    case AppConstants.REFRESJ_PROMPT:
+      prependPrompts(action.data, action.feed);
       break;
 
     case AppConstants.SAVE_PROMPT:
