@@ -39,13 +39,10 @@ var Prompts = React.createClass({
   getInitialState: function() {
     return {
       feed: this.props.feed,
-      dataBlob: {},
       dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-        }),
+        rowHasChanged: (row1, row2) => true,
+      }),
       prompts: {},
-      currentPage: 0,
       loaded: false,
       loadMore: false
     };
@@ -72,16 +69,16 @@ var Prompts = React.createClass({
   },
 
   _onChange: function() {
-    var tempDataBlob = this.state.dataBlob;
-    tempDataBlob[this.state.currentPage] = PromptStore.getPrompts(this.state.feed);
     this.setState({
-      currentPage: this.state.currentPage + 1,
       prompts: PromptStore.getPrompts(this.state.feed),
-      dataBlob: tempDataBlob,
-      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob),
+      dataSource: this.getDataSource(PromptStore.getPrompts(this.state.feed)),
       loaded: true,
       loadMore: false
     });
+  },
+
+  getDataSource: function(prompts): ListView.DataSource {
+    return this.state.dataSource.cloneWithRows(prompts);
   },
 
   render: function() {
@@ -95,6 +92,7 @@ var Prompts = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={this.renderCell}
         renderFooter={this.renderFooter}
+        automaticallyAdjustContentInsets={false}
         onEndReached={this.state.feed !== 'saved' ? this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id) : null}
       />
     );
@@ -126,7 +124,7 @@ var Prompts = React.createClass({
   },
 
   renderCell: function(item) {
-    var parsedType = item.data.title.split('[')[1].split(']')[0].toUpperCase();
+    var parsedType = item.data.title.split('[')[1].split(']')[0].toUpperCase().trim();
     if(parsedType.length > 2) {
       parsedType = parsedType.substring(0,2);
     }
@@ -135,6 +133,7 @@ var Prompts = React.createClass({
     return (
       <PromptCell
         onSelect={() => this.goToPrompt(item, type, title)}
+        key={item.data.id}
         type={type}
         title={title}
         numComments = {item.data.num_comments}
@@ -145,8 +144,10 @@ var Prompts = React.createClass({
 
   pullMorePrompts: function(index) {
     if(this.state.feed !== 'saved') {
-      this.setState({loadMore: true}); 
-      RedditApi.getPromptsData(this.state.feed, index);
+      if(!this.state.loadMore) {
+        RedditApi.getPromptsData(this.state.feed, index);
+        this.setState({loadMore: true});
+      }
     }
   },
 

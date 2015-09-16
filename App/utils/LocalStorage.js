@@ -45,7 +45,7 @@ var LocalStorage = {
 						item.comments = commentData;
 						db.add(item)
           				.then(function(addedData) {
-          					PromptsActions.savedPrompt(item.prompt);
+          					PromptsActions.savePrompt(item.prompt);
           				})
 					})
 				}

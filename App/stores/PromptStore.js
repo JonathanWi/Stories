@@ -9,7 +9,13 @@ var _prompts = {};
 
 // Method to load prompts from reddit API
 function loadPrompts(data, feed) {
-  _prompts[feed] = data;
+  if(!_prompts[feed]) {
+    _prompts[feed] = data;  
+  } else {
+    for (var i = 0; i < data.length; i++) {
+      _prompts[feed].push(data[i])
+    };
+  }
 }
 
 function savePrompt(data) {

@@ -25,7 +25,7 @@ var PromptsActions = {
 	// Save prompt to localStorage
 	savePrompt: function(data) {
 		AppDispatcher.handleAction({
-			actionType: AppConstants.SAVE_PROMPTS,
+			actionType: AppConstants.SAVE_PROMPT,
 			data: data
 		})
 	},
