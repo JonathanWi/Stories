@@ -8,6 +8,7 @@ var NavigationActions = require('../../actions/NavigationActions');
 var CommentCell = require('./CommentCell');
 
 var RedditApi = require('../../utils/RedditApi');
+var LocalStorage = require('../../utils/LocalStorage');
 
 var Lightbox = require('react-native-lightbox');
 var Icon = require('react-native-vector-icons/Ionicons');
@@ -21,6 +22,7 @@ var {
   Image,
   ScrollView,
   AppStateIOS,
+  TouchableOpacity,
   ActivityIndicatorIOS
 } = React;
 
@@ -28,25 +30,30 @@ var Comments = React.createClass({
 
   getInitialState: function() {
     return {
+      item : this.props.item,
       promptId : this.props.promptId,
       title : this.props.title,
       type : this.props.type,
       author : this.props.author,
       selftext: this.props.selftext,
-      dataBlob: {},
       dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+        rowHasChanged: (r1, r2) => true,
         }),
       comments: CommentStore.getComments(),
-      loaded : false
+      loaded : false,
+      fromSaved: this.props.fromSaved,
+      isSaved: false
     };
   },
 
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
-    RedditApi.getPromptComments(this.state.promptId);
     NavigationActions.switchNavColor({'barTintColor' : this.state.type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
+    if(this.state.fromSaved) {
+      LocalStorage.getPromptComments(this.state.promptId)
+    } else {
+      RedditApi.getPromptComments(this.state.promptId);
+    }
   },
 
   componentWillUnmount: function() {
@@ -54,13 +61,9 @@ var Comments = React.createClass({
   },
 
   _onChange: function() {
-    var tempDataBlob = this.state.dataBlob;
-    tempDataBlob[0] = CommentStore.getComments();
     this.setState({
-      currentPage: this.state.currentPage + 1,
       comments: CommentStore.getComments(),
-      dataBlob: tempDataBlob,
-      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob),
+      dataSource: this.state.dataSource.cloneWithRows(CommentStore.getComments()),
       loaded: true,
     });
   },
@@ -68,12 +71,14 @@ var Comments = React.createClass({
 
   render: function() {
     return (
-      <ListView
-        renderHeader={this.renderHeader}
-        renderFooter={this.renderFooter}
-        dataSource={this.state.dataSource}
-        renderRow={this.renderCell}
-      /> 
+        <ScrollView style={{position:'relative'}}>
+          <ListView
+            renderHeader={this.renderHeader}
+            renderFooter={this.renderFooter}
+            dataSource={this.state.dataSource}
+            renderRow={this.renderCell}
+          /> 
+        </ScrollView>
     );
   },
 
@@ -101,7 +106,7 @@ var Comments = React.createClass({
             <Lightbox>
               <Image
                 style={styles.cover}
-                resizeMode="stretch"
+                resizeMode="cover"
                 source={{ uri: urls[0] }}
               />
             </Lightbox>
@@ -146,6 +151,7 @@ var Comments = React.createClass({
     return (
       <CommentCell
         author={author}
+        key={item.data.id}
         body={body}
         color={this.state.type.color} />
       )
@@ -154,10 +160,10 @@ var Comments = React.createClass({
   renderLoading: function() {
     return (
       <View style={{flex: 1,backgroundColor: '#FFFFFF',justifyContent: 'center',alignItems: 'center'}}>
-          <ActivityIndicatorIOS
-            animating={!this.state.loaded}
-            style={{alignItems: 'center',justifyContent: 'center',height: 80}}
-            size="large" />
+        <ActivityIndicatorIOS
+          animating={!this.state.loaded}
+          style={{alignItems: 'center',justifyContent: 'center',height: 80}}
+          size="large" />
       </View>
       )
   }

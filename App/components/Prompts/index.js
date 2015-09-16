@@ -7,8 +7,10 @@ var PromptCell = require('./PromptCell');
 var PromptStore = require('../../stores/PromptStore');
 
 var RedditApi = require('../../utils/RedditApi');
+var LocalStorage = require('../../utils/LocalStorage');
 
 var Icon = require('react-native-vector-icons/Ionicons');
+var reactNativeStore = require('react-native-store');
 
 var types = {
   'WP' : { 'name' : 'Writing Prompts', 'color': '#802727'},
@@ -37,13 +39,10 @@ var Prompts = React.createClass({
   getInitialState: function() {
     return {
       feed: this.props.feed,
-      dataBlob: {},
       dataSource: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-        sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-        }),
-      prompts: PromptStore.getPrompts(this.props.feed),
-      currentPage: 0,
+        rowHasChanged: (row1, row2) => true,
+      }),
+      prompts: {},
       loaded: false,
       loadMore: false
     };
@@ -57,7 +56,11 @@ var Prompts = React.createClass({
   },
 
   componentDidMount: function() {
-    RedditApi.getPromptsData(this.state.feed, null);
+    if(this.state.feed !== 'saved') {
+      RedditApi.getPromptsData(this.state.feed, null);
+    } else {
+      LocalStorage.getPrompts();
+    }
     PromptStore.addChangeListener(this._onChange);
   },
 
@@ -66,16 +69,16 @@ var Prompts = React.createClass({
   },
 
   _onChange: function() {
-    var tempDataBlob = this.state.dataBlob;
-    tempDataBlob[this.state.currentPage] = PromptStore.getPrompts(this.state.feed);
     this.setState({
-      currentPage: this.state.currentPage + 1,
       prompts: PromptStore.getPrompts(this.state.feed),
-      dataBlob: tempDataBlob,
-      dataSource: this.state.dataSource.cloneWithRowsAndSections(this.state.dataBlob),
+      dataSource: this.getDataSource(PromptStore.getPrompts(this.state.feed)),
       loaded: true,
       loadMore: false
     });
+  },
+
+  getDataSource: function(prompts): ListView.DataSource {
+    return this.state.dataSource.cloneWithRows(prompts);
   },
 
   render: function() {
@@ -89,7 +92,8 @@ var Prompts = React.createClass({
         dataSource={this.state.dataSource}
         renderRow={this.renderCell}
         renderFooter={this.renderFooter}
-        onEndReached={this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id)}
+        automaticallyAdjustContentInsets={false}
+        onEndReached={this.state.feed !== 'saved' ? this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id) : null}
       />
     );
   },
@@ -120,7 +124,7 @@ var Prompts = React.createClass({
   },
 
   renderCell: function(item) {
-    var parsedType = item.data.title.split('[')[1].split(']')[0].toUpperCase();
+    var parsedType = item.data.title.split('[')[1].split(']')[0].toUpperCase().trim();
     if(parsedType.length > 2) {
       parsedType = parsedType.substring(0,2);
     }
@@ -128,7 +132,8 @@ var Prompts = React.createClass({
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
       <PromptCell
-        onSelect={() => this.goToPrompt(item.data.id, type, title, item.data.author, item.data.selftext)}
+        onSelect={() => this.goToPrompt(item, type, title)}
+        key={item.data.id}
         type={type}
         title={title}
         numComments = {item.data.num_comments}
@@ -138,33 +143,34 @@ var Prompts = React.createClass({
   },
 
   pullMorePrompts: function(index) {
-    this.setState({loadMore: true}); 
-    RedditApi.getPromptsData(this.state.feed, index);
+    if(this.state.feed !== 'saved') {
+      if(!this.state.loadMore) {
+        RedditApi.getPromptsData(this.state.feed, index);
+        this.setState({loadMore: true});
+      }
+    }
   },
 
-  goToPrompt: function(index, type, title, author, selftext) {
+  goToPrompt: function(item, type, title) {
     this.props.navigator.push({
       component: Comments,
       rightButtonIcon: this.state.saveIcon,
       backButtonTitle: ' ',
       title: type.name,
-      onRightButtonPress: this.savePrompt,
+      onRightButtonPress: () => {LocalStorage.toggleSavePrompt(item)},
       backButtonIcon: this.state.backIcon,
       passProps: {
-        promptId: index,
+        item: item,
+        promptId: item.data.id,
         title: title,
         type: type,
-        author: author,
-        selftext: selftext,
-        saveIcon: this.state.saveIcon
+        author: item.data.author,
+        selftext: item.data.selftext,
+        saveIcon: this.state.saveIcon,
+        fromSaved: this.state.feed === 'saved' ? true : false
       }
     })
   },
-
-  savePrompt: function() {
-    alert('ok');
-  }
-
 
 })
 

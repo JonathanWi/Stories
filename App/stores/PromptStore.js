@@ -9,7 +9,30 @@ var _prompts = {};
 
 // Method to load prompts from reddit API
 function loadPrompts(data, feed) {
-  _prompts[feed] = data;
+  if(!_prompts[feed]) {
+    _prompts[feed] = data;  
+  } else {
+    for (var i = 0; i < data.length; i++) {
+      _prompts[feed].push(data[i])
+    };
+  }
+}
+
+function savePrompt(data) {
+  _prompts['saved'].unshift(data);
+}
+
+function removePrompt(index) {
+  var arrIndex;
+  _.find(_prompts['saved'], function(prompt, promptArrIndex) {
+    if(prompt.data.id === index) {
+      arrIndex = promptArrIndex;
+    }
+  });
+  if (arrIndex > -1) {
+      _prompts['saved'].splice(arrIndex, 1);
+  }
+  
 }
 
 // Extend PromptStore with EventEmitter to add eventing capabilities
@@ -47,6 +70,14 @@ AppDispatcher.register(function(payload) {
     // Respond to GET_PROMPTS action
     case AppConstants.GET_PROMPTS:
       loadPrompts(action.data, action.feed);
+      break;
+
+    case AppConstants.SAVE_PROMPT:
+      savePrompt(action.data);
+      break;
+
+    case AppConstants.REMOVE_PROMPT:
+      removePrompt(action.index);
       break;
 
     default:

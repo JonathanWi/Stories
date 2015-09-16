@@ -23,10 +23,18 @@ var PromptsActions = {
 	},
 
 	// Save prompt to localStorage
-	savePrompt: function(index) {
+	savePrompt: function(data) {
 		AppDispatcher.handleAction({
-			actionType: AppConstants.SAVE_PROMPTS,
-			data: index
+			actionType: AppConstants.SAVE_PROMPT,
+			data: data
+		})
+	},
+
+	// remove prompt from localStorage
+	removePrompt: function(index) {
+		AppDispatcher.handleAction({
+			actionType: AppConstants.REMOVE_PROMPT,
+			index: index
 		})
 	},
 

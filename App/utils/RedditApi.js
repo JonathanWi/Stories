@@ -39,6 +39,7 @@ var RedditApi = {
 			var _data = JSON.parse(data._bodyInit);
 			_data = _data[1].data.children;
 			PromptsActions.getComments(_data);
+			return _data;
 		});
 	}
 }
