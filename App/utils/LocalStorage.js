@@ -38,6 +38,9 @@ var LocalStorage = {
 			.then(function(promptData) {
 				if(promptData.length > 0) {
 					db.remove({id:item.id})
+						.then(function(removedData) {
+							PromptsActions.removePrompt(item.id);
+						})
 				} 
 				else {
 					RedditApi.getPromptComments(item.id)

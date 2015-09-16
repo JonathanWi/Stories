@@ -22,6 +22,19 @@ function savePrompt(data) {
   _prompts['saved'].unshift(data);
 }
 
+function removePrompt(index) {
+  var arrIndex;
+  _.find(_prompts['saved'], function(prompt, promptArrIndex) {
+    if(prompt.data.id === index) {
+      arrIndex = promptArrIndex;
+    }
+  });
+  if (arrIndex > -1) {
+      _prompts['saved'].splice(arrIndex, 1);
+  }
+  
+}
+
 // Extend PromptStore with EventEmitter to add eventing capabilities
 var PromptStore = _.extend({}, EventEmitter.prototype, {
 
@@ -61,6 +74,10 @@ AppDispatcher.register(function(payload) {
 
     case AppConstants.SAVE_PROMPT:
       savePrompt(action.data);
+      break;
+
+    case AppConstants.REMOVE_PROMPT:
+      removePrompt(action.index);
       break;
 
     default:

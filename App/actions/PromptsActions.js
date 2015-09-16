@@ -30,6 +30,14 @@ var PromptsActions = {
 		})
 	},
 
+	// remove prompt from localStorage
+	removePrompt: function(index) {
+		AppDispatcher.handleAction({
+			actionType: AppConstants.REMOVE_PROMPT,
+			index: index
+		})
+	},
+
 };
 
 module.exports = PromptsActions;
