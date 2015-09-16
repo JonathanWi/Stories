@@ -10,7 +10,6 @@ var RedditApi = require('../../utils/RedditApi');
 var LocalStorage = require('../../utils/LocalStorage');
 
 var Icon = require('react-native-vector-icons/Ionicons');
-var reactNativeStore = require('react-native-store');
 
 var types = {
   'WP' : { 'name' : 'Writing Prompts', 'color': '#802727'},
@@ -34,6 +33,11 @@ var {
   ActivityIndicatorIOS
 } = React;
 
+var {
+  RefresherListView,
+  LoadingBarIndicator
+} = require('react-native-refresher');
+
 var Prompts = React.createClass({
 
   getInitialState: function() {
@@ -44,7 +48,8 @@ var Prompts = React.createClass({
       }),
       prompts: {},
       loaded: false,
-      loadMore: false
+      loadMore: false,
+      pullToRefresh: false
     };
   },
 
@@ -88,13 +93,16 @@ var Prompts = React.createClass({
         )
     }
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderCell}
-        renderFooter={this.renderFooter}
-        automaticallyAdjustContentInsets={false}
-        onEndReached={this.state.feed !== 'saved' ? this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id) : null}
-      />
+      <View style={{flex:1}}>
+        <RefresherListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderCell}
+          onRefresh={this.onRefresh}
+          renderFooter={this.renderFooter}
+          automaticallyAdjustContentInsets={false}
+          onEndReached={this.state.feed !== 'saved' ? this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id) : null}
+        />
+      </View>
     );
   },
 
@@ -148,6 +156,20 @@ var Prompts = React.createClass({
         RedditApi.getPromptsData(this.state.feed, index);
         this.setState({loadMore: true});
       }
+    }
+  },
+
+  onRefresh: function() {
+    if(this.state.feed == 'saved') {
+      return true;
+    }
+    if(!this.state.pullToRefresh) {
+      this.setState({pullToRefresh: true});
+      var _this = this;
+      RedditApi.refreshPromptsData(this.state.feed, this.state.prompts[0].data.id).then(function() {
+        _this.setState({pullToRefresh: false});
+      })
+      
     }
   },
 

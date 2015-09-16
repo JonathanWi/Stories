@@ -6,8 +6,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column'
+    flex: 1
   }
 })
 

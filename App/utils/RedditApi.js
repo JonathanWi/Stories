@@ -5,16 +5,9 @@ var RedditApi = {
 	getPromptsData: function(feed, index) {
 		index = typeof index !== 'undefined' ? index : null;
 		var url = 'https://api.reddit.com/r/WritingPrompts';
-
 		// Defining which feed to pull data from
-		switch (feed) 
-		{
-			case 'new': 
-				url += '/new';
-				break;
-			case 'top':
-				url += '/top'
-				break;
+		if(feed === 'top') {
+			url += '/top'
 		}
 
 		// Check index to start from when loading more data
@@ -30,6 +23,29 @@ var RedditApi = {
 				return item.data.stickied === false;
 			})
 			PromptsActions.getPrompts(_data, feed);
+		});
+	},
+
+	refreshPromptsData: function(feed, index) {
+		var url = 'https://api.reddit.com/r/WritingPrompts';
+
+		// Defining which feed to pull data from
+		if(feed === 'top') {
+			console.log('is top !');
+			url += '/top'
+		}
+
+		url += '?limit=25&before=t3_' + index;
+
+		return fetch(url)
+		.then(function(data) {
+			var _data = JSON.parse(data._bodyInit);
+			_data = _data.data.children;
+			_data = _.filter(_data, function(item) {
+				return item.data.stickied === false;
+			})
+			PromptsActions.pullToRefresh(_data, feed);
+			return _data;
 		});
 	},
 
