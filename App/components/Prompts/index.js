@@ -7,6 +7,7 @@ var PromptCell = require('./PromptCell');
 var PromptStore = require('../../stores/PromptStore');
 
 var RedditApi = require('../../utils/RedditApi');
+var LocalStorage = require('../../utils/LocalStorage');
 
 var Icon = require('react-native-vector-icons/Ionicons');
 var reactNativeStore = require('react-native-store');
@@ -55,34 +56,13 @@ var Prompts = React.createClass({
       .then((source) => {
         this.setState({ saveIcon: source })
       });
-    if(this.state.feed === 'saved') {
-      var _this = this;
-      reactNativeStore.model("prompts").then(function(db) {
-        db.find().then(function(data) {
-          var _prompts = [];
-          for (var i = 0; i < data.length; i++) {
-            _prompts[i] = data[i].prompt;
-          };
-          _prompts = _prompts.reverse();
-          var tempDataBlob = _this.state.dataBlob;
-          tempDataBlob[_this.state.currentPage] = _prompts;
-
-          _this.setState({
-            currentPage: _this.state.currentPage + 1,
-            prompts: _prompts,
-            dataBlob: tempDataBlob,
-            dataSource: _this.state.dataSource.cloneWithRowsAndSections(_this.state.dataBlob),
-            loaded: true,
-            loadMore: false
-          });
-        })
-      });
-    }
   },
 
   componentDidMount: function() {
     if(this.state.feed !== 'saved') {
       RedditApi.getPromptsData(this.state.feed, null);
+    } else {
+      LocalStorage.getPrompts();
     }
     PromptStore.addChangeListener(this._onChange);
   },
@@ -176,7 +156,7 @@ var Prompts = React.createClass({
       rightButtonIcon: this.state.saveIcon,
       backButtonTitle: ' ',
       title: type.name,
-      onRightButtonPress: () => { this._resultsView && this._resultsView.savePrompt(); },
+      onRightButtonPress: () => {LocalStorage.toggleSavePrompt(item)},
       backButtonIcon: this.state.backIcon,
       passProps: {
         item: item,
@@ -186,15 +166,10 @@ var Prompts = React.createClass({
         author: item.data.author,
         selftext: item.data.selftext,
         saveIcon: this.state.saveIcon,
-        ref: this.onResultsRef,
         fromSaved: this.state.feed === 'saved' ? true : false
       }
     })
   },
-
-  onResultsRef(resultsViewRef) {
-    this._resultsView = resultsViewRef;
-  }
 
 })
 

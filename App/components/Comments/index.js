@@ -8,10 +8,10 @@ var NavigationActions = require('../../actions/NavigationActions');
 var CommentCell = require('./CommentCell');
 
 var RedditApi = require('../../utils/RedditApi');
+var LocalStorage = require('../../utils/LocalStorage');
 
 var Lightbox = require('react-native-lightbox');
 var Icon = require('react-native-vector-icons/Ionicons');
-var reactNativeStore = require('react-native-store');
 
 var {
   View,
@@ -51,26 +51,11 @@ var Comments = React.createClass({
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
     NavigationActions.switchNavColor({'barTintColor' : this.state.type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
-    var _this = this;
-
-    reactNativeStore.model("prompts").then(function(db) {
-      db.find({id: _this.state.promptId})
-        .then(function(data) {
-          _this.setState({isSaved : data.length === 0 ? false : true});
-        })
-    })
-
     if(this.state.fromSaved) {
-      reactNativeStore.model("prompts").then(function(db) {
-        db.find({id:_this.state.promptId})
-          .then(function(data) {
-            _this.updateDataBlob(data[0].comments)
-          })
-      })
+      LocalStorage.getPromptComments(this.state.promptId)
     } else {
       RedditApi.getPromptComments(this.state.promptId);
     }
-
   },
 
   componentWillUnmount: function() {
@@ -78,20 +63,17 @@ var Comments = React.createClass({
   },
 
   _onChange: function() {
-    this.updateDataBlob(CommentStore.getComments())
-  },
-
-  updateDataBlob: function(data) {
     var tempDataBlob = this.state.dataBlob;
-    tempDataBlob[0] = data;
+    tempDataBlob[0] = CommentStore.getComments();
     this.setState({
       currentPage: this.state.currentPage + 1,
-      comments: data,
+      comments: CommentStore.getComments(),
       dataBlob: tempDataBlob,
       dataSource: this.state.dataSource.cloneWithRowsAndSections(tempDataBlob),
       loaded: true,
     });
   },
+
 
   render: function() {
     return (
@@ -130,7 +112,7 @@ var Comments = React.createClass({
             <Lightbox>
               <Image
                 style={styles.cover}
-                resizeMode="stretch"
+                resizeMode="cover"
                 source={{ uri: urls[0] }}
               />
             </Lightbox>
@@ -189,31 +171,6 @@ var Comments = React.createClass({
           size="large" />
       </View>
       )
-  },
-
-  savePrompt: function() {
-    var prompt = {
-      id: this.state.promptId,
-      prompt: this.state.item,
-      comments: this.state.comments
-    }
-    var _this = this;
-    reactNativeStore.model("prompts").then(function(db) {
-      if(!_this.state.isSaved) {
-        db.add(prompt)
-          .then(function(data) {
-            console.log('added');
-            // Display toast & change icon
-          }) 
-        } else {
-          db.remove({id:prompt.id})
-            .then(function(data) {
-              console.log('removed');
-              // Display toast & change icon
-            }) 
-        }
-        
-    });
   }
 
 })

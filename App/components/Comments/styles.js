@@ -24,6 +24,7 @@ var styles = StyleSheet.create({
   	color: '#000'
   },
   cover: {
+    flex: 1,
     height: 300,
     borderColor: '#FFF',
     borderWidth: 2,

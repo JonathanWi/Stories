@@ -12,6 +12,10 @@ function loadPrompts(data, feed) {
   _prompts[feed] = data;
 }
 
+function savePrompt(data) {
+  _prompts['saved'].unshift(data);
+}
+
 // Extend PromptStore with EventEmitter to add eventing capabilities
 var PromptStore = _.extend({}, EventEmitter.prototype, {
 
@@ -47,6 +51,10 @@ AppDispatcher.register(function(payload) {
     // Respond to GET_PROMPTS action
     case AppConstants.GET_PROMPTS:
       loadPrompts(action.data, action.feed);
+      break;
+
+    case AppConstants.SAVE_PROMPT:
+      savePrompt(action.data);
       break;
 
     default:
