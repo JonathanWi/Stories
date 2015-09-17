@@ -15,16 +15,15 @@ var styles = StyleSheet.create({
   },
   title: {
   	color: '#FFFFFF',
-  	lineHeight: 30,
-  	fontSize: 22,
+  	lineHeight: 38,
+  	fontSize: 26,
   	fontWeight: 'bold'
   },
   author: {
-  	marginTop: 15,
-  	color: '#000'
+  	color: '#000',
+    fontSize: 18,
   },
   cover: {
-    flex: 1,
     height: 300,
     borderColor: '#FFF',
     borderWidth: 2,
@@ -45,6 +44,26 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 14,
   },
+  icon: {
+    fontSize: 24,
+  },
+  iconText: {
+    fontSize: 18,
+    color: '#000',
+    paddingLeft: 5,
+    paddingBottom: 6
+  },
+  stats: {
+    flex: 1,
+    marginTop: 25,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  stat: {
+    flex: 0, 
+    marginRight: 15, 
+    opacity:.5
+  }
 })
 
 module.exports = styles;

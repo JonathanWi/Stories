@@ -36,10 +36,10 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginBottom: 35,
+    marginBottom: 25,
   },
   author: {
-    fontSize: 16,
+    fontSize: 15,
     textAlign: 'left',
     color: '#AAAAAA',
     letterSpacing : 1

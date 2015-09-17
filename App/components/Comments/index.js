@@ -99,6 +99,7 @@ var Comments = React.createClass({
 
   renderHeader: function() {
     // If image prompts, display image in header
+    var lightBox = [];
     if(this.state.type.name === 'Image Prompt') {
       // Extract Image URL from selftext
       var geturl = new RegExp(
@@ -106,50 +107,45 @@ var Comments = React.createClass({
        ,"g"
       ),
       urls = this.state.selftext.match(geturl);
-      console.log(urls);
-      return (
-        <View style={{backgroundColor:this.state.type.color}}>
-          <View style={styles.header}>
-            <Text style={styles.title}>
-              {this.state.title}
-            </Text>
-            <View style={{opacity:.5}}>
-              <Icon name="ios-search-strong" style={styles.magnify}>
-                <Text style={styles.instructions}>Tap to zoom</Text>
+      lightBox.push(
+        <View>
+          <View style={{opacity:.5}}>
+            <Icon name="ios-search-strong" style={styles.magnify}><Text style={styles.instructions}>Tap to zoom</Text></Icon>
+          </View>
+          <Lightbox>
+            <Image style={styles.cover} resizeMode="cover" source={{ uri: urls[0] }} />
+          </Lightbox>
+        </View>
+        );
+    }
+    return (
+      <View style={{backgroundColor:this.state.type.color}}>
+        <View style={styles.header}>
+          <Text style={styles.title}>
+            {this.state.title}
+          </Text>
+          {lightBox}
+          <View style={styles.stats}>
+            <View style={styles.stat}>
+              <Text style={styles.author}>
+                — {this.state.author}
+              </Text>
+            </View>
+            <View style={styles.stat}>
+              <Icon name="ios-chatbubble-outline" style={styles.icon} size={20} color="#000">
+                <Text style={styles.iconText}>{this.state.item.data.num_comments}</Text>
               </Icon>
             </View>
-            <Lightbox>
-              <Image
-                style={styles.cover}
-                resizeMode="cover"
-                source={{ uri: urls[0] }}
-              />
-            </Lightbox>
-            <View style={{opacity:.5}}>
-              <Text style={styles.author}>
-                — {this.state.author}
-              </Text>
+            <View style={styles.stat}>
+              <Icon name="ios-arrow-thin-up" style={styles.icon} size={20} color="#000">
+                <Text style={styles.iconText}>{this.state.item.data.score}</Text>
+              </Icon>
             </View>
           </View>
+
         </View>
-      );
-    }
-    else {
-      return (
-        <View style={{backgroundColor:this.state.type.color}}>
-          <View style={styles.header}>
-            <Text style={styles.title}>
-              {this.state.title}
-            </Text>
-            <View style={{opacity:.5}}>
-              <Text style={styles.author}>
-                — {this.state.author}
-              </Text>
-            </View>
-          </View>
-        </View>
-      );
-    }
+      </View>
+    );
   },
 
   renderFooter: function() {
