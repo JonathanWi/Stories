@@ -28,6 +28,7 @@ var styles = StyleSheet.create({
   },
   iconText: {
     fontSize: 16,
+    fontFamily: 'Avenir',
     color: '#AAA',
     paddingLeft: 5,
     paddingBottom: 5
@@ -41,8 +42,15 @@ var styles = StyleSheet.create({
   author: {
     fontSize: 15,
     textAlign: 'left',
+    fontFamily: 'Avenir',
     color: '#AAAAAA',
-    letterSpacing : 1
+    letterSpacing : 1,
+    lineHeight: 18
+  },
+  flair : {
+    fontSize: 12, 
+    lineHeight:15,
+    fontFamily: 'Avenir'
   },
   type: {
     flex: 1,

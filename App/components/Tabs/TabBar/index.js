@@ -29,6 +29,7 @@ var CustomTabBar = React.createClass({
               color: isTabActive ? '#000' : '#AAA', 
               fontWeight: isTabActive ? 'bold' : 'normal',
               fontSize:13,
+              fontFamily: 'Avenir',
               letterSpacing: 1
             }}>
             {name.toUpperCase()}

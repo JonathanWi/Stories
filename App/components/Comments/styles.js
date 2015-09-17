@@ -17,11 +17,13 @@ var styles = StyleSheet.create({
   	color: '#FFFFFF',
   	lineHeight: 38,
   	fontSize: 26,
+    fontFamily: 'Avenir',
   	fontWeight: 'bold'
   },
   author: {
   	color: '#000',
     fontSize: 18,
+    fontFamily: 'Avenir',
   },
   cover: {
     height: 300,
@@ -30,6 +32,7 @@ var styles = StyleSheet.create({
   },
   magnify: {
     fontSize: 12,
+    fontFamily: 'Avenir',
     marginTop: 15,
     marginBottom: 15,
     color: '#FFF'
@@ -50,6 +53,7 @@ var styles = StyleSheet.create({
   iconText: {
     fontSize: 18,
     color: '#000',
+    fontFamily: 'Avenir',
     paddingLeft: 5,
     paddingBottom: 6
   },

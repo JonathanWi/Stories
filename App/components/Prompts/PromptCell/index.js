@@ -35,7 +35,7 @@ var PromptCell = React.createClass({
         <View style={styles.container}>
           <View style={{flex: 1}}>
             <View style={styles.type}>
-              <Text style={styles.author}>{this.state.author} | <Text style={{color:this.state.type.color, fontSize: 12, lineHeight:15}}>{this.state.type.name.toUpperCase()}</Text>
+              <Text style={styles.author}>{this.state.author} | <Text style={[styles.flair, {color:this.state.type.color}]}>{this.state.type.name.toUpperCase()}</Text>
               </Text>
             </View>
             <Text style={styles.title}>
@@ -55,7 +55,7 @@ var PromptCell = React.createClass({
               <View style={{flex: 0, marginRight: 15}}>
                 <TouchableHighlight activeOpacity={0.5} underlayColor="#FFF" onPress={this.toggleSaved}>
                   <Icon name={this.state.isSaved ? 'ios-bookmarks' : 'ios-bookmarks-outline'} style={styles.icon} size={20} color={this.state.isSaved ? '#DDD' : '#AAA'}>
-                    <Text style={styles.iconText}>{this.state.isSaved ? 'saved' : 'unsaved'}</Text>
+                    <Text style={styles.iconText}>{this.state.isSaved ? 'Saved' : 'Unsaved'}</Text>
                   </Icon>
                 </TouchableHighlight>
               </View>

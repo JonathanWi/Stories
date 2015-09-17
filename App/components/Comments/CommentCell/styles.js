@@ -28,6 +28,7 @@ var styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'left',
     marginBottom: 15,
+    fontFamily: 'Avenir',
     marginTop: 25,
     lineHeight: 25,
     letterSpacing : 1
