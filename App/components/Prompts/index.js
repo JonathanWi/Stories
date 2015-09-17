@@ -10,6 +10,7 @@ var RedditApi = require('../../utils/RedditApi');
 var LocalStorage = require('../../utils/LocalStorage');
 
 var Icon = require('react-native-vector-icons/Ionicons');
+var SGListView = require('react-native-sglistview');
 
 var types = {
   'WP' : { 'name' : 'Writing Prompts', 'color': '#802727'},
@@ -32,11 +33,6 @@ var {
   ListView,
   ActivityIndicatorIOS
 } = React;
-
-var {
-  RefresherListView,
-  LoadingBarIndicator
-} = require('react-native-refresher');
 
 var Prompts = React.createClass({
 
@@ -94,10 +90,9 @@ var Prompts = React.createClass({
     }
     return (
       <View style={{flex:1}}>
-        <RefresherListView
+        <SGListView
           dataSource={this.state.dataSource}
           renderRow={this.renderCell}
-          onRefresh={this.onRefresh}
           renderFooter={this.renderFooter}
           automaticallyAdjustContentInsets={false}
           onEndReached={this.state.feed !== 'saved' ? this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id) : null}
