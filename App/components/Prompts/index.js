@@ -127,10 +127,7 @@ var Prompts = React.createClass({
   },
 
   renderCell: function(item) {
-    var parsedType = item.data.title.split('[')[1].split(']')[0].toUpperCase().trim();
-    if(parsedType.length > 2) {
-      parsedType = parsedType.substring(0,2);
-    }
+    var parsedType = item.data.link_flair_text.split(' ').map(function (s) { return s.charAt(0); }).join('').toUpperCase();
     var type = types[parsedType];
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
