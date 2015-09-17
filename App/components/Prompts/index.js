@@ -10,6 +10,7 @@ var RedditApi = require('../../utils/RedditApi');
 var LocalStorage = require('../../utils/LocalStorage');
 
 var Icon = require('react-native-vector-icons/Ionicons');
+var SGListView = require('react-native-sglistview');
 
 var types = {
   'WP' : { 'name' : 'Writing Prompts', 'color': '#802727'},
@@ -32,11 +33,6 @@ var {
   ListView,
   ActivityIndicatorIOS
 } = React;
-
-var {
-  RefresherListView,
-  LoadingBarIndicator
-} = require('react-native-refresher');
 
 var Prompts = React.createClass({
 
@@ -94,10 +90,9 @@ var Prompts = React.createClass({
     }
     return (
       <View style={{flex:1}}>
-        <RefresherListView
+        <SGListView
           dataSource={this.state.dataSource}
           renderRow={this.renderCell}
-          onRefresh={this.onRefresh}
           renderFooter={this.renderFooter}
           automaticallyAdjustContentInsets={false}
           onEndReached={this.state.feed !== 'saved' ? this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id) : null}
@@ -132,10 +127,7 @@ var Prompts = React.createClass({
   },
 
   renderCell: function(item) {
-    var parsedType = item.data.title.split('[')[1].split(']')[0].toUpperCase().trim();
-    if(parsedType.length > 2) {
-      parsedType = parsedType.substring(0,2);
-    }
+    var parsedType = item.data.link_flair_text.split(' ').map(function (s) { return s.charAt(0); }).join('').toUpperCase();
     var type = types[parsedType];
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
