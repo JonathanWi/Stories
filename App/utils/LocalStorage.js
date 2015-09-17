@@ -11,6 +11,7 @@ var LocalStorage = {
 				var _prompts = [];
 				for (var i = 0; i < data.length; i++) {
 					_prompts[i] = data[i].prompt;
+					_prompts[i].isSaved = true;
 				};
 				_prompts = _prompts.reverse();
 				PromptsActions.getPrompts(_prompts, 'saved');

@@ -16,22 +16,41 @@ var styles = StyleSheet.create({
     marginLeft: 25,
   },
   title: {
-    fontSize: 22,
+    fontSize: 26,
     textAlign: 'left',
-    marginTop: 25,
-    marginBottom: 10,
     color: '#333',
     fontFamily: 'Georgia',
-    lineHeight: 34
+    lineHeight: 38,
+    marginBottom: 25
   },
-  type: {
-    fontSize: 12,
+  icon: {
+    fontSize: 22,
+  },
+  iconText: {
+    fontSize: 16,
+    color: '#AAA',
+    paddingLeft: 5,
+    paddingBottom: 5
+  },
+  stats: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     marginBottom: 35,
+  },
+  author: {
+    fontSize: 16,
     textAlign: 'left',
     color: '#AAAAAA',
-    lineHeight: 25,
     letterSpacing : 1
   },
+  type: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginBottom: 15,
+    marginTop: 25,
+  }
 })
 
 module.exports = styles;

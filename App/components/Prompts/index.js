@@ -90,7 +90,7 @@ var Prompts = React.createClass({
     }
     return (
       <View style={{flex:1}}>
-        <SGListView
+        <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderCell}
           renderFooter={this.renderFooter}
@@ -136,7 +136,10 @@ var Prompts = React.createClass({
         key={item.data.id}
         type={type}
         title={title}
+        item={item}
+        isSaved = {item.isSaved}
         numComments = {item.data.num_comments}
+        score = {item.data.score}
         author={item.data.author} />
       )
     

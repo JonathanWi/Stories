@@ -12,6 +12,7 @@ var LocalStorage = require('../../utils/LocalStorage');
 
 var Lightbox = require('react-native-lightbox');
 var Icon = require('react-native-vector-icons/Ionicons');
+var SGListView = require('react-native-sglistview');
 
 var {
   View,
@@ -70,16 +71,30 @@ var Comments = React.createClass({
 
 
   render: function() {
-    return (
-        <ScrollView style={{position:'relative'}}>
+    if(this.state.fromSaved) {
+      return (
+        <View style={{flex: 1}}>
           <ListView
             renderHeader={this.renderHeader}
             renderFooter={this.renderFooter}
             dataSource={this.state.dataSource}
             renderRow={this.renderCell}
           /> 
-        </ScrollView>
+        </View>
+      )
+    } else {
+      return (
+        <View style={{flex: 1}}>
+          <SGListView
+            renderHeader={this.renderHeader}
+            renderFooter={this.renderFooter}
+            dataSource={this.state.dataSource}
+            renderRow={this.renderCell}
+          /> 
+        </View>
     );
+    }
+    
   },
 
   renderHeader: function() {

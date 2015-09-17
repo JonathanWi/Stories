@@ -28,8 +28,7 @@ var Stories = React.createClass({
       <View style={styles.container}>
         <Component
           route={route}
-          navigator={navigator}
-          topNavigator={navigator} />
+          navigator={navigator} />
       </View>
       )
   },
