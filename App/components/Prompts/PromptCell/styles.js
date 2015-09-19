@@ -29,7 +29,7 @@ var styles = StyleSheet.create({
   iconText: {
     fontSize: 16,
     fontFamily: 'Avenir',
-    color: '#AAA',
+    color: '#8C9CA9',
     paddingLeft: 5,
     paddingBottom: 5
   },
@@ -43,7 +43,7 @@ var styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'left',
     fontFamily: 'Avenir',
-    color: '#AAAAAA',
+    color: '#8C9CA9',
     letterSpacing : 1,
     lineHeight: 18
   },
