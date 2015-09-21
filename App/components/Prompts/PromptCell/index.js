@@ -55,7 +55,7 @@ var PromptCell = React.createClass({
               <View style={{flex: 0, marginRight: 15}}>
                 <TouchableHighlight activeOpacity={0.5} underlayColor="#FFF" onPress={this.toggleSaved}>
                   <Icon name={this.state.isSaved ? 'ios-bookmarks' : 'ios-bookmarks-outline'} style={styles.icon} size={20} color={this.state.isSaved ? '#DDD' : '#AAA'}>
-                    <Text style={styles.iconText}>{this.state.isSaved ? 'Saved' : 'Unsaved'}</Text>
+                    <Text style={styles.iconText}>{this.state.isSaved ? 'Saved' : 'Save'}</Text>
                   </Icon>
                 </TouchableHighlight>
               </View>

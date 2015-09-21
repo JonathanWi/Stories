@@ -7,7 +7,7 @@ var reactNativeStore = require('react-native-store');
 var LocalStorage = {
 	getPrompts: function() {
 		reactNativeStore.model("prompts").then(function(db) {
-			db.find().then(function(data) {
+			db.find(null,{limit : 1000}).then(function(data) {
 				var _prompts = [];
 				for (var i = 0; i < data.length; i++) {
 					_prompts[i] = data[i].prompt;
@@ -47,6 +47,7 @@ var LocalStorage = {
 					RedditApi.getPromptComments(item.id)
 					.then(function(commentData) {
 						item.comments = commentData;
+						item.prompt.isSaved = true;
 						db.add(item)
           				.then(function(addedData) {
           					PromptsActions.savePrompt(item.prompt);
