@@ -31,6 +31,7 @@ var {
   View,
   ScrollView,
   ListView,
+  Text,
   ActivityIndicatorIOS
 } = React;
 
@@ -94,6 +95,7 @@ var Prompts = React.createClass({
           dataSource={this.state.dataSource}
           renderRow={this.renderCell}
           renderFooter={this.renderFooter}
+          renderHeader={this.renderHeader}
           automaticallyAdjustContentInsets={false}
           onEndReached={this.state.feed !== 'saved' ? this.pullMorePrompts.bind(this, this.state.prompts[this.state.prompts.length - 1].data.id) : null}
         />
@@ -112,6 +114,21 @@ var Prompts = React.createClass({
         </View>
       </ScrollView>
       )
+  },
+
+  renderHeader: function() {
+    if(this.state.feed === 'saved') {
+      if(this.state.loaded) {
+        if(this.state.prompts.length === 0) {
+          return(
+            <View style={{flex: 1,backgroundColor: '#FFFFFF',justifyContent: 'center',alignItems: 'center', 'marginTop' : 30}}>
+              <Icon name="ios-bookmarks-outline" size={60} color="#8C9CA9" />
+              <Text style={{color:'#8C9CA9', textAlign:'center', fontSize:18, fontFamily: 'Avenir'}}>You have no saved prompts yet</Text>
+            </View>
+            )
+        }
+      }
+    }
   },
 
   renderFooter: function() {
