@@ -77,7 +77,7 @@ var RedditApi = {
 	},
 
 	getPromptComments: function(index) {
-		return fetch('https://api.reddit.com/r/WritingPrompts/comments/'+ index +'.json?depth=1')
+		return fetch('https://api.reddit.com/r/WritingPrompts/comments/'+ index +'.json')
 		.then(function(data) {
 			var _data = JSON.parse(data._bodyInit);
 			_data = _data[1].data.children;

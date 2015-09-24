@@ -41,12 +41,6 @@ var styles = StyleSheet.create({
     color: '#FFF',
     marginLeft: 5
   },
-  toastText: {
-    color: '#ffffff',
-    padding: 15,
-    backgroundColor: 'transparent',
-    fontSize: 14,
-  },
   icon: {
     fontSize: 24,
   },
@@ -67,6 +61,30 @@ var styles = StyleSheet.create({
     flex: 0, 
     marginRight: 15, 
     opacity:.5
+  },
+  modal: {
+    height: 500,
+    paddingTop: 0
+  },
+  reply: {
+    paddingBottom: 10,
+    paddingRight: 25,
+    backgroundColor: '#FFF'
+  },
+  replyAuthor: {
+    fontSize: 15,
+    textAlign: 'left',
+    marginBottom: 10,
+    fontFamily: 'Avenir',
+    color: '#8C9CA9',
+    lineHeight: 25,
+    letterSpacing : 1
+  },
+  replyBody: {
+    fontSize: 15,
+    textAlign: 'left',
+    fontFamily: 'Avenir',
+    color: '#333',
   }
 })
 

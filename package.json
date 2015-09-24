@@ -9,11 +9,12 @@
     "events": "^1.0.2",
     "react-native": "^0.11.0",
     "react-native-lightbox": "^0.3.0",
+    "react-native-modalbox": "^1.1.4",
     "react-native-scrollable-tab-view": "^0.1.10",
     "react-native-sglistview": "^0.1.3",
     "react-native-store": "0.0.9",
-    "react-native-vector-icons": "^0.6.2",
-    "react-native-swiper": "https://github.com/ForkForgery/react-native-swiper"
+    "react-native-swiper": "https://github.com/ForkForgery/react-native-swiper",
+    "react-native-vector-icons": "^0.6.2"
   },
   "devDependencies": {
     "flux": "^2.1.1",

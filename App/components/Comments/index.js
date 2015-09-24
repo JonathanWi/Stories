@@ -13,6 +13,7 @@ var LocalStorage = require('../../utils/LocalStorage');
 var Lightbox = require('react-native-lightbox');
 var Icon = require('react-native-vector-icons/Ionicons');
 var SGListView = require('react-native-sglistview');
+var Modal   = require('react-native-modalbox');
 
 var {
   View,
@@ -40,10 +41,12 @@ var Comments = React.createClass({
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => true,
         }),
+      replies: {},
       comments: CommentStore.getComments(),
       loaded : false,
       fromSaved: this.props.fromSaved,
-      isSaved: false
+      isSaved: false,
+      repliesRender: []
     };
   },
 
@@ -91,6 +94,11 @@ var Comments = React.createClass({
             dataSource={this.state.dataSource}
             renderRow={this.renderCell}
           /> 
+          <Modal swipeToClose={false} style={[styles.modal]} position={"bottom"} ref={"repliesModal"}>
+            <ScrollView>
+              {this.state.repliesRender}
+            </ScrollView>
+          </Modal>
         </View>
     );
     }
@@ -159,13 +167,45 @@ var Comments = React.createClass({
   renderCell: function(item) {
     var author = item.data.author;
     var body = item.data.body.trim();
+    var replies = {};
+    var repliesRender = [];
+    if(item.data.replies) {
+      replies = item.data.replies;
+      var addReply = function(reply, repliesRender, level) {
+        var comment = (
+          <View style={[styles.reply, {paddingLeft: 25 + (15 * level)}]}>
+            <Text style={styles.replyAuthor}>{reply.data.author}</Text>
+            <Text style={styles.replyBody}>{reply.data.body.trim()}</Text>
+          </View>);
+        repliesRender.push(comment);
+        if(reply.data.replies) {
+          for(var i = 0; i < reply.data.replies.data.children.length; i++) {
+            addReply(reply.data.replies.data.children[i], repliesRender, level + 1);
+          }
+        }   
+      }
+
+      for(var i = 0; i < replies.data.children.length; i++) {
+        addReply(replies.data.children[i], repliesRender, 0);
+      }
+    }
+
     return (
       <CommentCell
         author={author}
         key={item.data.id}
         body={body}
+        displayReplies={() => this.displayReplies(repliesRender)}
+        repliesCount={repliesRender.length}
         color={this.state.type.color} />
       )
+  },
+
+  displayReplies: function(repliesRender) {
+    this.refs.repliesModal.open();
+    this.setState({
+      repliesRender: repliesRender
+    });
   },
 
   renderLoading: function() {

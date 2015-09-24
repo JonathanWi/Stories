@@ -7,7 +7,7 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'flex-start',
     backgroundColor: '#FFFFFD',
     borderBottomColor: '#E9E9E9',
@@ -32,6 +32,15 @@ var styles = StyleSheet.create({
     marginTop: 25,
     lineHeight: 25,
     letterSpacing : 1
+  },
+  iconReply: {
+    fontSize: 24,
+  },
+  textReply: {
+    fontSize: 18,
+    color: '#8C9CA9',
+    fontFamily: 'Avenir',
+    paddingLeft: 5,
   },
 })
 
