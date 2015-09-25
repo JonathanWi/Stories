@@ -83,6 +83,11 @@ var Comments = React.createClass({
             dataSource={this.state.dataSource}
             renderRow={this.renderCell}
           /> 
+          <Modal swipeArea={200} style={[styles.modal]} position={"bottom"} ref={"repliesModal"}>
+            <ScrollView>
+              {this.state.repliesRender}
+            </ScrollView>
+          </Modal>
         </View>
       )
     } else {
