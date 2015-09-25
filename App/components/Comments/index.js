@@ -94,7 +94,7 @@ var Comments = React.createClass({
             dataSource={this.state.dataSource}
             renderRow={this.renderCell}
           /> 
-          <Modal swipeToClose={false} style={[styles.modal]} position={"bottom"} ref={"repliesModal"}>
+          <Modal swipeArea={200} style={[styles.modal]} position={"bottom"} ref={"repliesModal"}>
             <ScrollView>
               {this.state.repliesRender}
             </ScrollView>
