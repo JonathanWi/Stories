@@ -3,7 +3,7 @@
 var React = require('react-native');
 var styles = require('./styles');
 
-var Main = require('./App/components/Main');
+var Navigation = require('./App/components/Navigation');
 
 var _ = require('./node_modules/react-native/node_modules/underscore');
 
@@ -18,7 +18,7 @@ var Stories = React.createClass({
 
   render: function() {
     return (
-      this.renderMain()
+      this.renderNavigation()
     );
   },
 
@@ -33,7 +33,7 @@ var Stories = React.createClass({
       )
   },
 
-  renderMain: function() {
+  renderNavigation: function() {
     return (
       <Navigator
           sceneStyle={styles.container}
@@ -43,7 +43,7 @@ var Stories = React.createClass({
           onBack={this.resetNavigationSettings}
           initialRoute={{
             name: 'Stories',
-            component: Main
+            component: Navigation
           }} />
     )
   }

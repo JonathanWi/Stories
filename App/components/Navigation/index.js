@@ -10,7 +10,7 @@ var {
   StatusBarIOS
 } = React;
 
-var Main = React.createClass({
+var Navigation = React.createClass({
   getInitialState: function() {
     return {
       navigation: NavigationStore.getNavigationSettings()
@@ -56,4 +56,4 @@ var Main = React.createClass({
 
 })
 
-module.exports = Main;
+module.exports = Navigation;
