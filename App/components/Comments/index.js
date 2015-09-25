@@ -174,6 +174,7 @@ var Comments = React.createClass({
     var body = item.data.body.trim();
     var replies = {};
     var repliesRender = [];
+    var numReplies = 0;
     if(item.data.replies) {
       replies = item.data.replies;
       var addReply = function(reply, repliesRender, level) {
@@ -193,6 +194,15 @@ var Comments = React.createClass({
       for(var i = 0; i < replies.data.children.length; i++) {
         addReply(replies.data.children[i], repliesRender, 0);
       }
+
+      numReplies = repliesRender.length;
+    } else {
+      repliesRender.push(
+        <View style={{alignItems: 'center',justifyContent: 'center',flex:1}}>
+          <Icon name="ios-chatbubble-outline" style={{marginBottom:20}} size={50} color="#8C9CA9" />
+          <Text style={{fontFamily: 'Avenir',color: '#8C9CA9', fontSize:18}}> There are no replies yet.</Text>
+        </View>
+        )
     }
 
     return (
@@ -201,7 +211,7 @@ var Comments = React.createClass({
         key={item.data.id}
         body={body}
         displayReplies={() => this.displayReplies(repliesRender)}
-        repliesCount={repliesRender.length}
+        repliesCount={numReplies}
         color={this.state.type.color} />
       )
   },
