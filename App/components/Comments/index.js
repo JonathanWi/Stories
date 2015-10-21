@@ -3,8 +3,6 @@ var styles = require('./styles.js');
 
 var CommentStore = require('../../stores/CommentStore');
 
-var NavigationActions = require('../../actions/NavigationActions');
-
 var CommentCell = require('./CommentCell');
 
 var RedditApi = require('../../utils/RedditApi');
@@ -52,7 +50,6 @@ var Comments = React.createClass({
 
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
-    NavigationActions.switchNavColor({'barTintColor' : this.state.type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
     if(this.state.fromSaved) {
       LocalStorage.getPromptComments(this.state.promptId)
     } else {
@@ -74,23 +71,6 @@ var Comments = React.createClass({
 
 
   render: function() {
-    if(this.state.fromSaved) {
-      return (
-        <View style={{flex: 1}}>
-          <ListView
-            renderHeader={this.renderHeader}
-            renderFooter={this.renderFooter}
-            dataSource={this.state.dataSource}
-            renderRow={this.renderCell}
-          /> 
-          <Modal swipeArea={200} style={[styles.modal]} position={"bottom"} ref={"repliesModal"}>
-            <ScrollView>
-              {this.state.repliesRender}
-            </ScrollView>
-          </Modal>
-        </View>
-      )
-    } else {
       return (
         <View style={{flex: 1}}>
           <SGListView
@@ -106,8 +86,6 @@ var Comments = React.createClass({
           </Modal>
         </View>
     );
-    }
-    
   },
 
   renderHeader: function() {
@@ -132,7 +110,7 @@ var Comments = React.createClass({
         );
     }
     return (
-      <View style={{backgroundColor:this.state.type.color}}>
+      <View style={{backgroundColor:this.state.type.color, marginTop: -20}}>
         <View style={styles.header}>
           <Text style={styles.title}>
             {this.state.title}
