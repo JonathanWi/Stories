@@ -3,7 +3,8 @@
 var React = require('react-native');
 var styles = require('./styles');
 
-var Navigation = require('./App/components/Navigation');
+var Tabs = require('./App/components/Tabs');
+var Router = require('gb-native-router');
 
 var _ = require('./node_modules/react-native/node_modules/underscore');
 
@@ -14,11 +15,19 @@ var {
   Navigator
 } = React;
 
+var firstRoute = {
+  name: 'Stories',
+  component: Tabs
+};
+
 var Stories = React.createClass({
 
   render: function() {
     return (
-      this.renderNavigation()
+      <Router 
+        firstRoute={firstRoute}
+        headerStyle={styles.header}
+        titleStyle={styles.title} />
     );
   },
 

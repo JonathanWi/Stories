@@ -107,7 +107,11 @@ var Comments = React.createClass({
         </View>
     );
     }
-    
+    // return(
+    //   <View>
+    //     <Text>Hello</Text>
+    //   </View>
+    // )
   },
 
   renderHeader: function() {

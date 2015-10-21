@@ -186,11 +186,14 @@ var Prompts = React.createClass({
   },
 
   goToPrompt: function(item, type, title) {
-    this.props.navigator.push({
+    console.log('clicked');
+    this.props.toRoute({
       component: Comments,
+      name: type.name,
       rightButtonIcon: this.state.saveIcon,
       backButtonTitle: ' ',
       title: type.name,
+      headerStyle: {backgroundColor : type.color},
       onRightButtonPress: () => {LocalStorage.toggleSavePrompt(item)},
       backButtonIcon: this.state.backIcon,
       passProps: {
