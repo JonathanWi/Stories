@@ -11,7 +11,7 @@ var styles = StyleSheet.create({
   title: {
   	fontFamily: 'Avenir',
   	color: '#FFF',
-    fontSize: 22
+    fontSize: 18
   }
 });
 

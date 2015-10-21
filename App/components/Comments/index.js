@@ -3,8 +3,6 @@ var styles = require('./styles.js');
 
 var CommentStore = require('../../stores/CommentStore');
 
-var NavigationActions = require('../../actions/NavigationActions');
-
 var CommentCell = require('./CommentCell');
 
 var RedditApi = require('../../utils/RedditApi');
@@ -52,7 +50,6 @@ var Comments = React.createClass({
 
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
-    NavigationActions.switchNavColor({'barTintColor' : this.state.type.color, 'tintColor' : '#FFF', 'titleTextColor' : '#FFF', 'statusBar' : 1, 'shadowHidden' : true});
     if(this.state.fromSaved) {
       LocalStorage.getPromptComments(this.state.promptId)
     } else {
