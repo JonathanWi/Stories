@@ -3,6 +3,7 @@ var styles = require('./styles.js');
 
 var Comments = require('../Comments');
 var PromptCell = require('./PromptCell');
+var SaveButton = require('../Buttons/Save');
 
 var PromptStore = require('../../stores/PromptStore');
 
@@ -186,15 +187,15 @@ var Prompts = React.createClass({
   },
 
   goToPrompt: function(item, type, title) {
-    console.log('clicked');
     this.props.toRoute({
       component: Comments,
       name: type.name,
-      rightButtonIcon: this.state.saveIcon,
-      backButtonTitle: ' ',
-      title: type.name,
       headerStyle: {backgroundColor : type.color},
-      onRightButtonPress: () => {LocalStorage.toggleSavePrompt(item)},
+      rightCorner: SaveButton,
+      rightCornerProps: {
+        isSaved: item.isSaved,
+        toggleSave: () => {LocalStorage.toggleSavePrompt(item)}
+      },
       backButtonIcon: this.state.backIcon,
       passProps: {
         item: item,
@@ -203,7 +204,6 @@ var Prompts = React.createClass({
         type: type,
         author: item.data.author,
         selftext: item.data.selftext,
-        saveIcon: this.state.saveIcon,
         fromSaved: this.state.feed === 'saved' ? true : false
       }
     })

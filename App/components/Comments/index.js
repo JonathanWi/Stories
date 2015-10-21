@@ -74,23 +74,6 @@ var Comments = React.createClass({
 
 
   render: function() {
-    if(this.state.fromSaved) {
-      return (
-        <View style={{flex: 1}}>
-          <ListView
-            renderHeader={this.renderHeader}
-            renderFooter={this.renderFooter}
-            dataSource={this.state.dataSource}
-            renderRow={this.renderCell}
-          /> 
-          <Modal swipeArea={200} style={[styles.modal]} position={"bottom"} ref={"repliesModal"}>
-            <ScrollView>
-              {this.state.repliesRender}
-            </ScrollView>
-          </Modal>
-        </View>
-      )
-    } else {
       return (
         <View style={{flex: 1}}>
           <SGListView
@@ -106,12 +89,6 @@ var Comments = React.createClass({
           </Modal>
         </View>
     );
-    }
-    // return(
-    //   <View>
-    //     <Text>Hello</Text>
-    //   </View>
-    // )
   },
 
   renderHeader: function() {
@@ -136,7 +113,7 @@ var Comments = React.createClass({
         );
     }
     return (
-      <View style={{backgroundColor:this.state.type.color}}>
+      <View style={{backgroundColor:this.state.type.color, marginTop: -20}}>
         <View style={styles.header}>
           <Text style={styles.title}>
             {this.state.title}

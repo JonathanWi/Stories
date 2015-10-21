@@ -81,7 +81,7 @@ var styles = StyleSheet.create({
     letterSpacing : 1
   },
   replyBody: {
-    fontSize: 15,
+    fontSize: 20,
     textAlign: 'left',
     fontFamily: 'Avenir',
     color: '#333',

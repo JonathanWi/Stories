@@ -10,7 +10,8 @@ var styles = StyleSheet.create({
   },
   title: {
   	fontFamily: 'Avenir',
-  	color: '#FFF'
+  	color: '#FFF',
+    fontSize: 22
   }
 });
 

@@ -4,8 +4,10 @@ var React = require('react-native');
 var styles = require('./styles');
 
 var Tabs = require('./App/components/Tabs');
+var BackButton = require('./App/components/Buttons/Back');
 var Router = require('gb-native-router');
 
+var Icon = require('react-native-vector-icons/Ionicons');
 var _ = require('./node_modules/react-native/node_modules/underscore');
 
 
@@ -26,6 +28,7 @@ var Stories = React.createClass({
     return (
       <Router 
         firstRoute={firstRoute}
+        backButtonComponent={BackButton}
         headerStyle={styles.header}
         titleStyle={styles.title} />
     );
