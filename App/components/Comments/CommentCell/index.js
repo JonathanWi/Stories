@@ -41,6 +41,11 @@ var CommentCell = React.createClass({
       }
       _estimatedTime += ' read';
     }
+    var body = '';
+    if(this.state.body) {
+       body = this.state.body.replace(/[\r\n]+/g, '\n\n');
+    }
+    
 
     return (
       <View style={styles.container}>
@@ -49,7 +54,7 @@ var CommentCell = React.createClass({
             <Text style={{color:this.state.color}}>{this.state.author} </Text><Text style={{color:'#8C9CA9'}}> | {_estimatedTime} </Text>
           </Text>
           <Text style={styles.body}>
-            {this.state.body}
+            {body}
           </Text>
         </View>
         <View style={{flex: 1, marginBottom:25}}>

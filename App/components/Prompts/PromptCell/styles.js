@@ -16,11 +16,11 @@ var styles = StyleSheet.create({
     marginLeft: 25,
   },
   title: {
-    fontSize: 26,
+    fontSize: 22,
     textAlign: 'left',
     color: '#333',
     fontFamily: 'Georgia',
-    lineHeight: 38,
+    lineHeight: 34,
     marginBottom: 25
   },
   icon: {
@@ -31,7 +31,6 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir',
     color: '#8C9CA9',
     paddingLeft: 5,
-    paddingBottom: 5
   },
   stats: {
     flex: 1,
@@ -40,11 +39,10 @@ var styles = StyleSheet.create({
     marginBottom: 25,
   },
   author: {
-    fontSize: 15,
+    fontSize: 12,
     textAlign: 'left',
     fontFamily: 'Avenir',
     color: '#8C9CA9',
-    letterSpacing : 1,
     lineHeight: 18
   },
   flair : {
@@ -56,7 +54,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginBottom: 15,
+    marginBottom: 12.5,
     marginTop: 25,
   }
 })

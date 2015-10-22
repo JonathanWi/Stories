@@ -48,6 +48,7 @@ var Comments = React.createClass({
   },
 
   componentDidMount: function () {
+    console.log('mounted');
     CommentStore.addChangeListener(this._onChange);
     if(this.state.fromSaved) {
       LocalStorage.getPromptComments(this.state.promptId)
@@ -61,11 +62,13 @@ var Comments = React.createClass({
   },
 
   _onChange: function() {
+    console.log('changed');
     this.setState({
       comments: CommentStore.getComments(),
       dataSource: this.state.dataSource.cloneWithRows(CommentStore.getComments()),
       loaded: true,
     });
+    
   },
 
 

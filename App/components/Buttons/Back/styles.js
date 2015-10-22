@@ -3,10 +3,10 @@ var { StyleSheet } = React;
 
 var styles = StyleSheet.create({
   button: {
-    fontSize: 39,
+    fontSize: 35,
     color: '#FFF',
     marginLeft: 10,
-    marginTop: 10,
+    marginTop: 3,
     marginRight: 10
   }
 });

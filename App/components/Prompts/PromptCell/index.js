@@ -35,7 +35,7 @@ var PromptCell = React.createClass({
         <View style={styles.container}>
           <View style={{flex: 1}}>
             <View style={styles.type}>
-              <Text style={styles.author}>{this.state.author} | <Text style={[styles.flair, {color:this.state.type.color}]}>{this.state.type.name.toUpperCase()}</Text>
+              <Text style={styles.author}>{this.state.author} in <Text style={[styles.flair, {color:this.state.type.color}]}>{this.state.type.name}</Text>
               </Text>
             </View>
             <Text style={styles.title}>

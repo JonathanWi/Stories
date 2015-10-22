@@ -11,18 +11,18 @@ var styles = StyleSheet.create({
     flexDirection: 'column'
   },
   header: {
-  	padding: 25
+  	padding: 20
   },
   title: {
   	color: '#FFFFFF',
-  	lineHeight: 38,
-  	fontSize: 26,
+  	lineHeight: 32,
+  	fontSize: 24,
     fontFamily: 'Avenir',
   	fontWeight: 'bold'
   },
   author: {
   	color: '#000',
-    fontSize: 18,
+    fontSize: 12,
     fontFamily: 'Avenir',
   },
   cover: {
@@ -42,18 +42,17 @@ var styles = StyleSheet.create({
     marginLeft: 5
   },
   icon: {
-    fontSize: 24,
+    fontSize: 16,
   },
   iconText: {
-    fontSize: 18,
+    fontSize: 12,
     color: '#000',
     fontFamily: 'Avenir',
-    paddingLeft: 5,
-    paddingBottom: 6
+    paddingLeft: 5
   },
   stats: {
     flex: 1,
-    marginTop: 25,
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
@@ -68,20 +67,21 @@ var styles = StyleSheet.create({
   },
   reply: {
     paddingBottom: 10,
-    paddingRight: 25,
+    paddingRight: 20,
     backgroundColor: '#FFF'
   },
   replyAuthor: {
-    fontSize: 15,
+    fontSize: 12,
     textAlign: 'left',
-    marginBottom: 10,
+    marginBottom: 5,
     fontFamily: 'Avenir',
     color: '#8C9CA9',
-    lineHeight: 25,
+    lineHeight: 20,
     letterSpacing : 1
   },
   replyBody: {
-    fontSize: 20,
+    fontSize: 15,
+    lineHeight: 20,
     textAlign: 'left',
     fontFamily: 'Avenir',
     color: '#333',

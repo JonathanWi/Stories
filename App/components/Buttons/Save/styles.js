@@ -6,10 +6,10 @@ var styles = StyleSheet.create({
 	flexDirection: 'row',
   },
   button: {
-    fontSize: 39,
+    fontSize: 35,
     color: '#FFF',
     marginLeft: 10,
-    marginTop: 10,
+    marginTop: 3,
     marginRight: 10
   }
 });

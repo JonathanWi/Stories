@@ -12,25 +12,24 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFFFFD',
     borderBottomColor: '#E9E9E9',
     borderBottomWidth: 1,
-    marginRight: 25,
-    marginLeft: 25,
+    marginRight: 20,
+    marginLeft: 20,
   },
   body: {
-    fontSize: 22,
+    fontSize: 17.3,
     textAlign: 'left',
-    marginBottom: 25,
+    marginBottom: 20,
     color: '#333',
     fontFamily: 'Georgia',
-    lineHeight: 34,
-    textAlign: 'justify'
+    lineHeight: 30
   },
   author: {
-    fontSize: 15,
+    fontSize: 12,
     textAlign: 'left',
-    marginBottom: 15,
+    marginBottom: 10,
     fontFamily: 'Avenir',
-    marginTop: 25,
-    lineHeight: 25,
+    marginTop: 20,
+    lineHeight: 20,
     letterSpacing : 1
   },
   iconReply: {
