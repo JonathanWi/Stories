@@ -25,8 +25,16 @@ function prependPrompts(data, feed) {
   };
 }
 
-function savePrompt(data) {
-  _prompts['saved'].unshift(data);
+function savePrompt(prompt) {
+  _prompts['saved'].unshift(prompt);
+  var savedId = prompt.data.id
+  for(var key in _prompts) {
+    for (var i = 0; i < _prompts[key].length; i++) {
+      if(savedId === _prompts[key][i].data.id) {
+        _prompts[key][i].isSaved = true;
+      }
+    };
+  }
 }
 
 function removePrompt(index) {
