@@ -10,7 +10,6 @@ var LocalStorage = require('../../utils/LocalStorage');
 
 var Lightbox = require('react-native-lightbox');
 var Icon = require('react-native-vector-icons/Ionicons');
-var SGListView = require('react-native-sglistview');
 var Modal   = require('react-native-modalbox');
 
 var {
@@ -73,7 +72,7 @@ var Comments = React.createClass({
   render: function() {
       return (
         <View style={{flex: 1}}>
-          <SGListView
+          <ListView
             renderHeader={this.renderHeader}
             renderFooter={this.renderFooter}
             dataSource={this.state.dataSource}

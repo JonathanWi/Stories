@@ -11,7 +11,6 @@ var RedditApi = require('../../utils/RedditApi');
 var LocalStorage = require('../../utils/LocalStorage');
 
 var Icon = require('react-native-vector-icons/Ionicons');
-var SGListView = require('react-native-sglistview');
 
 var types = {
   'WP' : { 'name' : 'Writing Prompts', 'color': '#802727'},
