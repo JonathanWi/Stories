@@ -7,8 +7,7 @@ var Prompts = require('../Prompts');
 var CustomTabBar = require('./TabBar');
 
 var {
-  NavigatorIOS,
-  StatusBarIOS
+  NavigatorIOS
 } = React;
 
 var Tabs = React.createClass({

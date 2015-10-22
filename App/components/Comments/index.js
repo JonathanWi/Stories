@@ -14,14 +14,11 @@ var Modal   = require('react-native-modalbox');
 
 var {
   View,
-  NavigatorIOS,
   Text,
   TouchableHighlight,
   ListView,
   Image,
   ScrollView,
-  AppStateIOS,
-  TouchableOpacity,
   ActivityIndicatorIOS
 } = React;
 

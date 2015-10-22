@@ -8,7 +8,6 @@ var _ = require('../../../../node_modules/react-native/node_modules/underscore')
 var {
   Text,
   View,
-  Image,
   TouchableHighlight
 } = React;
 
