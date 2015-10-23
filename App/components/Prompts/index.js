@@ -195,7 +195,6 @@ var Prompts = React.createClass({
         isSaved: item.isSaved,
         toggleSave: () => {LocalStorage.toggleSavePrompt(item)}
       },
-      backButtonIcon: this.state.backIcon,
       passProps: {
         item: item,
         promptId: item.data.id,
