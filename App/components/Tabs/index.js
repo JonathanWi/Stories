@@ -7,10 +7,15 @@ var Prompts = require('../Prompts');
 var CustomTabBar = require('./TabBar');
 
 var {
-  NavigatorIOS
+  NavigatorIOS,
+  StatusBarIOS
 } = React;
 
 var Tabs = React.createClass({
+
+  componentWillMount: function() {
+    StatusBarIOS.setHidden(false);
+  },
 
   render: function() {
     return (

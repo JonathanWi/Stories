@@ -5,6 +5,8 @@ var _ = require('../../node_modules/react-native/node_modules/underscore');
 var reactNativeStore = require('react-native-store');
 
 var LocalStorage = {
+
+	// Prompts related Storage
 	getPrompts: function() {
 		reactNativeStore.model("prompts").then(function(db) {
 			db.find(null,{limit : 1000}).then(function(data) {
@@ -56,6 +58,23 @@ var LocalStorage = {
 				}
 			})
 		})
+	},
+
+
+	// Defining if user open the app for the first time
+	updateIntroState: function() {
+		reactNativeStore.model("intro").then(function(db) {
+			db.find({seen: true})
+			.then(function(data) {
+				if(data.length === 0)  {
+					db.add({seen: true})
+					.then(function(dataAdded) {
+						console.log('success');
+					});
+				}
+			})
+			
+		});
 	}
 }
 
