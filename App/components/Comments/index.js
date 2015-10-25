@@ -11,13 +11,13 @@ var LocalStorage = require('../../utils/LocalStorage');
 var Lightbox = require('react-native-lightbox');
 var Icon = require('react-native-vector-icons/Ionicons');
 var Modal   = require('react-native-modalbox');
+var Image = require('react-native-image-progress');
 
 var {
   View,
   Text,
   TouchableHighlight,
   ListView,
-  Image,
   ScrollView,
   ActivityIndicatorIOS
 } = React;
@@ -100,8 +100,12 @@ var Comments = React.createClass({
           <View style={{opacity:.5}}>
             <Icon name="ios-search-strong" style={styles.magnify}><Text style={styles.instructions}>Tap to zoom</Text></Icon>
           </View>
-          <Lightbox>
-            <Image style={styles.cover} resizeMode="cover" source={{ uri: urls[0] }} />
+          <Lightbox navigator={this.props.navigator}>
+            <Image 
+              source={{ uri: urls[0] }}
+              indicator='bar' 
+              resizeMode="cover"
+              style={styles.cover}/>
           </Lightbox>
         </View>
         );
@@ -120,12 +124,12 @@ var Comments = React.createClass({
               </Text>
             </View>
             <View style={styles.stat}>
-              <Icon name="ios-chatbubble-outline" style={styles.icon} size={20} color="#000">
+              <Icon name="ios-chatbubble-outline" style={styles.icon} size={20} color="#FFF">
                 <Text style={styles.iconText}>{this.state.item.data.num_comments}</Text>
               </Icon>
             </View>
             <View style={styles.stat}>
-              <Icon name="ios-arrow-thin-up" style={styles.icon} size={20} color="#000">
+              <Icon name="ios-arrow-thin-up" style={styles.icon} size={20} color="#FFF">
                 <Text style={styles.iconText}>{this.state.item.data.score}</Text>
               </Icon>
             </View>
@@ -154,7 +158,7 @@ var Comments = React.createClass({
       replies = item.data.replies;
       var addReply = function(reply, repliesRender, level) {
         var comment = (
-          <View style={[styles.reply, {paddingLeft: 25 + (15 * level)}]}>
+          <View key={reply.data.id} style={[styles.reply, {paddingLeft: 25 + (15 * level)}]}>
             <Text style={styles.replyAuthor}>{reply.data.author}</Text>
             <Text style={styles.replyBody}>{reply.data.body.trim()}</Text>
           </View>);
