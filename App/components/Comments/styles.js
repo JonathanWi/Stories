@@ -21,14 +21,12 @@ var styles = StyleSheet.create({
   	fontWeight: 'bold'
   },
   author: {
-  	color: '#000',
+  	color: '#FFF',
     fontSize: 12,
     fontFamily: 'Avenir',
   },
   cover: {
     height: 300,
-    borderColor: '#FFF',
-    borderWidth: 2,
   },
   magnify: {
     fontSize: 12,
@@ -46,7 +44,7 @@ var styles = StyleSheet.create({
   },
   iconText: {
     fontSize: 12,
-    color: '#000',
+    color: '#FFF',
     fontFamily: 'Avenir',
     paddingLeft: 5
   },
@@ -58,8 +56,7 @@ var styles = StyleSheet.create({
   },
   stat: {
     flex: 0, 
-    marginRight: 15, 
-    opacity:.5
+    marginRight: 15
   },
   modal: {
     height: 500,

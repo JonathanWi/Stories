@@ -68,32 +68,6 @@ var Stories = React.createClass({
         headerStyle={styles.header}
         titleStyle={styles.title} />
     );
-  },
-
-  renderScene: function(route, navigator) {
-    var Component = route.component;
-    return (
-      <View style={styles.container}>
-        <Component
-          route={route}
-          navigator={navigator} />
-      </View>
-      )
-  },
-
-  renderNavigation: function() {
-    return (
-      <Navigator
-          sceneStyle={styles.container}
-          ref={(navigator) => { this.navigator = navigator; }}
-          renderScene={this.renderScene}
-          navigationBarHidden={true}
-          onBack={this.resetNavigationSettings}
-          initialRoute={{
-            name: 'Stories',
-            component: Navigation
-          }} />
-    )
   }
 
 });
