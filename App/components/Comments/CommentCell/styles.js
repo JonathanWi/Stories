@@ -26,9 +26,7 @@ var styles = StyleSheet.create({
   author: {
     fontSize: 12,
     textAlign: 'left',
-    marginBottom: 10,
     fontFamily: 'Avenir',
-    marginTop: 20,
     lineHeight: 20,
     letterSpacing : 1
   },
@@ -41,6 +39,17 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir',
     paddingLeft: 5,
   },
+  textSpeech: {
+    fontSize: 12,
+    color: '#8C9CA9',
+    fontFamily: 'Avenir',
+    paddingLeft: 5,
+  },
+  top: {
+    marginTop: 20,
+    flexDirection:'row',
+    marginBottom: 10,
+  }
 })
 
 module.exports = styles;
