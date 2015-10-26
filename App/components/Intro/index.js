@@ -33,10 +33,10 @@ var Intro = React.createClass({
 
   _onMomentumScrollEnd: function (e, state, context) {
 
-    if(context.state.index == 2) {
+    if(context.state.index == 3) {
       this.refs.startButton.slideInUp(200);
     } else {
-      if(this.state.previousSlide == 2) {
+      if(this.state.previousSlide == 3) {
         this.refs.startButton.fadeOutDown(200);
       } 
     }
@@ -92,6 +92,17 @@ var Intro = React.createClass({
               <Text style={styles.title}>Bookmarks</Text>
               <View style={{marginTop: 10}}>
                 <Text style={styles.text}>Read prompts later, even if you're offline.</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.slide}>
+            <View style={styles.centeredContent}>
+              <View style={{marginBottom: 10}}>
+                <Image style={{width:200,height:200}} source={require('image!text-to-speech')} />
+              </View>
+              <Text style={styles.title}>Listen</Text>
+              <View style={{marginTop: 10}}>
+                <Text style={styles.text}>Text-to-speech technology enabled.</Text>
               </View>
             </View>
           </View>
