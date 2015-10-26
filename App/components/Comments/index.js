@@ -40,6 +40,7 @@ var Comments = React.createClass({
       loaded : false,
       fromSaved: this.props.fromSaved,
       isSaved: false,
+      isPlaying: false,
       repliesRender: []
     };
   },
@@ -189,10 +190,18 @@ var Comments = React.createClass({
         author={author}
         key={item.data.id}
         body={body}
+        isPlaying={this.state.isPlaying}
+        updateIsPlaying={this.updateIsPlaying}
         displayReplies={() => this.displayReplies(repliesRender)}
         repliesCount={numReplies}
         color={this.state.type.color} />
       )
+  },
+
+  updateIsPlaying: function() {
+    // Update Playing state for all childs in order to
+    // stop concurrent Text-to-Speech
+    this.setState({isPlaying: false});
   },
 
   displayReplies: function(repliesRender) {
