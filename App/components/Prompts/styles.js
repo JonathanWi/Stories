@@ -20,7 +20,7 @@ var styles = StyleSheet.create({
     marginRight: 25,
     marginLeft: 25,
     color: '#333',
-    fontFamily: 'Times',
+    fontFamily: 'Georgia',
     lineHeight: 25
   },
   type: {

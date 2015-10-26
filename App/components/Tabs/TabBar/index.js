@@ -28,7 +28,7 @@ var CustomTabBar = React.createClass({
             style={{
               color: isTabActive ? '#000' : '#8C9CA9', 
               fontWeight: isTabActive ? 'bold' : 'normal',
-              fontSize:13,
+              fontSize:12,
               fontFamily: 'Avenir',
               letterSpacing: 1
             }}>

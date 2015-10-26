@@ -11,14 +11,15 @@ var styles = StyleSheet.create({
     flexDirection: 'column'
   },
   header: {
-  	padding: 20
+  	padding: 20,
+    paddingTop: 0
   },
   title: {
-  	color: '#FFFFFF',
-  	lineHeight: 32,
-  	fontSize: 24,
-    fontFamily: 'Avenir',
-  	fontWeight: 'bold'
+    fontSize: 22,
+    textAlign: 'left',
+    color: '#FFF',
+    fontFamily: 'Georgia',
+    lineHeight: 34
   },
   author: {
   	color: '#FFF',
