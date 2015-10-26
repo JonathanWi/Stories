@@ -47,7 +47,11 @@ var Comments = React.createClass({
   componentDidMount: function () {
     CommentStore.addChangeListener(this._onChange);
     if(this.state.fromSaved) {
-      LocalStorage.getPromptComments(this.state.promptId)
+      var _this = this;
+      // Timeout in order to not pollute the transition with data rendering
+      setTimeout(function() {
+        LocalStorage.getPromptComments(_this.state.promptId)
+      }, 500);
     } else {
       RedditApi.getPromptComments(this.state.promptId);
     }
