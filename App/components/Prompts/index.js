@@ -144,8 +144,14 @@ var Prompts = React.createClass({
   },
 
   renderCell: function(item) {
-    var parsedType = item.data.link_flair_text.split(' ').map(function (s) { return s.charAt(0); }).join('').toUpperCase();
-    var type = types[parsedType];
+    var type;
+    if(item.data.link_flair_text === null) {
+      type = types['WP'];
+    }
+    else {
+      var parsedType = item.data.link_flair_text.split(' ').map(function (s) { return s.charAt(0); }).join('').toUpperCase();
+      var type = types[parsedType];
+    }
     var title = item.data.title.replace(/ *\[[^\]]*]/, '').trim();
     return (
       <PromptCell
