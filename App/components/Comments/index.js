@@ -46,16 +46,16 @@ var Comments = React.createClass({
   },
 
   componentDidMount: function () {
+    var _this = this;
     CommentStore.addChangeListener(this._onChange);
-    if(this.state.fromSaved) {
-      var _this = this;
-      // Timeout in order to not pollute the transition with data rendering
-      setTimeout(function() {
+    // Timeout in order to not pollute the transition with data rendering
+    setTimeout(function() {
+      if(_this.state.fromSaved) {
         LocalStorage.getPromptComments(_this.state.promptId)
-      }, 500);
-    } else {
-      RedditApi.getPromptComments(this.state.promptId);
-    }
+      } else {
+        RedditApi.getPromptComments(_this.state.promptId);
+      }
+    }, 400);
   },
 
   componentWillUnmount: function() {
