@@ -102,8 +102,9 @@ var Comments = React.createClass({
       urls = this.state.selftext.match(geturl);
       lightBox.push(
         <View>
-          <View style={{opacity:.5}}>
-            <Icon name="ios-search-strong" style={styles.magnify}><Text style={styles.instructions}>Tap to zoom</Text></Icon>
+          <View style={[styles.stat, {opacity:.5, marginTop:15, marginBottom: 15}]}>
+            <Text style={styles.icon}><Icon name="ios-search-strong" size={16} color="#FFF" /></Text>
+            <Text style={styles.instructions}>Tap to zoom</Text>
           </View>
           <Lightbox navigator={this.props.navigator}>
             <Image 
@@ -129,14 +130,12 @@ var Comments = React.createClass({
               </Text>
             </View>
             <View style={styles.stat}>
-              <Icon name="ios-chatbubble-outline" style={styles.icon} size={20} color="#FFF">
-                <Text style={styles.iconText}>{this.state.item.data.num_comments}</Text>
-              </Icon>
+              <Text style={styles.icon}><Icon name="ios-chatbubble-outline" size={16} color="#FFF" /></Text>
+              <Text style={styles.iconText}>{this.state.item.data.num_comments}</Text>
             </View>
             <View style={styles.stat}>
-              <Icon name="ios-arrow-thin-up" style={styles.icon} size={20} color="#FFF">
-                <Text style={styles.iconText}>{this.state.item.data.score}</Text>
-              </Icon>
+              <Text style={styles.icon}><Icon name="ios-arrow-thin-up" size={16} color="#FFF" /></Text>
+              <Text style={styles.iconText}>{this.state.item.data.score}</Text>
             </View>
           </View>
 

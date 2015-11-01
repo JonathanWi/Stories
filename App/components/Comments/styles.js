@@ -12,7 +12,7 @@ var styles = StyleSheet.create({
   },
   header: {
   	padding: 20,
-    paddingTop: 0
+    paddingTop: 30
   },
   title: {
     fontSize: 22,
@@ -57,7 +57,8 @@ var styles = StyleSheet.create({
   },
   stat: {
     flex: 0, 
-    marginRight: 15
+    marginRight: 15,
+    flexDirection: 'row'
   },
   modal: {
     height: 500,

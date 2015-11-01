@@ -7,17 +7,17 @@
   },
   "dependencies": {
     "events": "^1.0.2",
-    "gb-native-router": "^0.4.3",
-    "react-native": "^0.11.0",
+    "gb-native-router": "https://github.com/MikaelCarpenter/gb-native-router",
+    "react-native": "^0.12.0",
     "react-native-animatable": "^0.2.0",
     "react-native-image-progress": "^0.3.1",
     "react-native-lightbox": "^0.4.0",
     "react-native-modalbox": "^1.1.5",
-    "react-native-scrollable-tab-view": "^0.1.10",
+    "react-native-scrollable-tab-view": "^0.2.1-alpha",
     "react-native-speech": "^0.1.0",
     "react-native-store": "0.0.9",
-    "react-native-swiper": "https://github.com/manandmoon/react-native-swiper",
-    "react-native-vector-icons": "^0.6.2"
+    "react-native-swiper-fork": "https://github.com/manandmoon/react-native-swiper",
+    "react-native-vector-icons": "^0.8.4"
   },
   "devDependencies": {
     "flux": "^2.1.1",

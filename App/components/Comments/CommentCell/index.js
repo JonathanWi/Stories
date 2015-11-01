@@ -99,13 +99,11 @@ var CommentCell = React.createClass({
               </Text>
             </View>
             <View style={{flex:1,alignItems:'flex-end', marginTop: 3}}>
-              <TouchableHighlight activeOpacity={0.5} underlayColor="#FFF" onPress={this._readComment}>
-                <Icon name={this.state.isPlaying ? 'ios-pause' : 'ios-play'} style={styles.iconReply} size={16} color={this.state.isPlaying ? '#000' : '#8C9CA9'}>
-                  <Text style={[styles.textSpeech, {color : this.state.isPlaying ? '#000' : '#8C9CA9'}]}>
-                    {this.state.isPlaying ? 'Stop' : 'Read'}
-                  </Text>
-                </Icon>
-              </TouchableHighlight>
+              <Icon.Button name={this.state.isPlaying ? 'ios-pause' : 'ios-play'} underlayColor="#FFF" style={styles.iconReply} size={16} backgroundColor='transparent' color={this.state.isPlaying ? '#000' : '#8C9CA9'} onPress={this._readComment}>
+                <Text style={[styles.textSpeech, {color : this.state.isPlaying ? '#000' : '#8C9CA9'}]}>
+                  {this.state.isPlaying ? 'Stop' : 'Read'}
+                </Text>
+              </Icon.Button>
             </View>
           </View>
           <Text style={styles.body}>
@@ -113,11 +111,9 @@ var CommentCell = React.createClass({
           </Text>
         </View>
         <View style={{flex: 1, marginBottom:25}}>
-          <TouchableHighlight activeOpacity={0.5} underlayColor="#FFF" onPress={this.props.displayReplies}>
-            <Icon name="reply" style={styles.iconReply} size={20} color="#8C9CA9">
-              <Text style={styles.textReply}>{this.state.repliesCount} Replies</Text>
-            </Icon>
-          </TouchableHighlight>
+          <Icon.Button name="reply" onPress={this.props.displayReplies} underlayColor="#FFF" style={styles.iconReply} size={20} backgroundColor='transparent' color="#8C9CA9">
+            <Text style={styles.textReply}>{this.state.repliesCount} Replies</Text>
+          </Icon.Button>
         </View>
         <View style={styles.separator}></View>
       </View>

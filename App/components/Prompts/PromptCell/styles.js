@@ -25,12 +25,23 @@ var styles = StyleSheet.create({
   },
   icon: {
     fontSize: 22,
+    flex: 1,
+  },
+  buttonSave: {
+    padding: 0,
+    backgroundColor: 'transparent'
+  },
+  iconTextContainer: {
+    flex: 0, 
+    marginRight: 15, 
+    flexDirection: 'row'
   },
   iconText: {
     fontSize: 16,
     fontFamily: 'Avenir',
     color: '#8C9CA9',
-    paddingLeft: 5,
+    marginLeft: 5,
+    flex: 0
   },
   stats: {
     flex: 1,

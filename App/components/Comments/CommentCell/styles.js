@@ -32,6 +32,7 @@ var styles = StyleSheet.create({
   },
   iconReply: {
     fontSize: 24,
+    padding: 0
   },
   textReply: {
     fontSize: 18,

@@ -42,21 +42,20 @@ var PromptCell = React.createClass({
               {this.state.title}
             </Text>
             <View style={styles.stats}>
-              <View style={{flex: 0, marginRight: 15}}>
-                <Icon name="ios-chatbubble-outline" style={styles.icon} size={20} color="#999">
-                  <Text style={styles.iconText}>{this.state.numComments}</Text>
-                </Icon>
+              <View style={styles.iconTextContainer}>
+                <Text style={styles.icon}><Icon name="ios-chatbubble-outline" size={20} color='#999' /></Text>
+                <Text style={styles.iconText}>{this.state.numComments}</Text>
               </View>
-              <View style={{flex: 0, marginRight: 15}}>
-                <Icon name="ios-arrow-thin-up" style={styles.icon} size={20} color="#999">
-                  <Text style={styles.iconText}>{this.state.score}</Text>
-                </Icon>
+              <View style={styles.iconTextContainer}>
+                <Text style={styles.icon}><Icon name="ios-arrow-thin-up" size={20} color='#999' /></Text>
+                <Text style={styles.iconText}>{this.state.score}</Text>
               </View>
-              <View style={{flex: 0, marginRight: 15}}>
+              <View style={styles.iconTextContainer}>
                 <TouchableHighlight activeOpacity={0.5} underlayColor="#FFF" onPress={this.toggleSaved}>
-                  <Icon name={this.state.isSaved ? 'ios-bookmarks' : 'ios-bookmarks-outline'} style={styles.icon} size={20} color={this.state.isSaved ? '#DDD' : '#AAA'}>
+                  <View style={{flex:0, flexDirection: 'row'}}>
+                    <Text style={[styles.icon, {color: this.state.isSaved ? '#DDD' : '#AAA'}]}><Icon name={this.state.isSaved ? 'ios-bookmarks' : 'ios-bookmarks-outline'} size={20} color='#999'/></Text>
                     <Text style={styles.iconText}>{this.state.isSaved ? 'Saved' : 'Save'}</Text>
-                  </Icon>
+                  </View>
                 </TouchableHighlight>
               </View>
             </View>
